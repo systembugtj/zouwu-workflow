@@ -3,6 +3,10 @@ dist/
 build/
 *.config.js
 *.config.ts
-coverage/
-.nx/
-
+**/scripts/**/*.js
+**/coverage/**
+docs/.vitepress/.temp/**
+docs/.vitepress/dist/**
+docs/.vitepress/cache/**
+.vitepress/**
+test-output/**
