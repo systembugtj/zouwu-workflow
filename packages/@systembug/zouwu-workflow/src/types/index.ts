@@ -23,11 +23,15 @@ export interface WorkflowDefinition {
     updatedAt?: number;
 
     /** 工作流触发条件 */
-    triggers?: WorkflowTrigger[];
-    /** 输入参数定义 */
+    triggers?: WorkflowTrigger[] | TriggerDefinition[];
+    /** 输入参数定义（数组格式，兼容现有实现） */
     inputs?: ParameterDefinition[];
-    /** 输出结果定义 */
+    /** 输入参数定义（Record格式，规范文档格式） */
+    inputsRecord?: Record<string, InputDefinition>;
+    /** 输出结果定义（数组格式，兼容现有实现） */
     outputs?: ParameterDefinition[];
+    /** 输出结果定义（Record格式，规范文档格式） */
+    outputsRecord?: Record<string, OutputDefinition>;
     /** 工作流级变量 */
     variables?: Record<string, any>;
     /** 工作流步骤定义 */
@@ -45,6 +49,8 @@ export interface WorkflowDefinition {
     retryOnFailure?: boolean;
     /** 最大重试次数 */
     maxRetries?: number;
+    /** 重试配置（规范文档格式） */
+    retry?: RetryConfig;
     /** 工作流标签 */
     tags?: string[];
     /** 最大并发步骤数 */
@@ -91,6 +97,8 @@ export interface BaseWorkflowStep {
     type: StepType;
     /** 步骤功能说明 */
     description?: string;
+    /** 驺吾颜色标识（可选） */
+    color?: 'blue' | 'red' | 'yellow' | 'white' | 'black';
     /** 依赖的步骤ID */
     dependsOn?: string | string[];
     /** 执行条件 */
@@ -103,17 +111,45 @@ export interface BaseWorkflowStep {
     async?: boolean;
     /** 错误处理策略 */
     onError?: ErrorHandler;
+    /** 错误处理器（规范文档格式） */
+    errorHandler?: ErrorHandlerConfig;
+    /** 是否忽略错误 */
+    ignoreError?: boolean;
+    /** 步骤标签 */
+    tags?: string[];
     /** 资源配置 */
     resources?: ResourceConfiguration;
     /** 输出结果schema，用于变量路径验证 */
     output_schema?: any;
+    /** 驺吾守护特性 */
+    guardian?: GuardianConfig;
+    /** 驺吾仁德特性 */
+    benevolent?: BenevolentConfig;
+    /** 驺吾双翼特性（并行专用） */
+    wings?: WingsConfig;
+    /** 驺吾长尾特性（链式专用） */
+    tail?: TailConfig;
+    /** 重试配置 */
+    retry?: RetryConfig;
 }
 
 // 📜 步骤类型枚举
-export type StepType = 'condition' | 'action' | 'builtin' | 'loop' | 'parallel' | 'workflow';
+export type StepType =
+    | 'condition' // 条件判断分支
+    | 'action' // 调用业务适配器方法
+    | 'builtin' // 内置操作
+    | 'loop' // 循环执行
+    | 'parallel' // 并行执行
+    | 'sequence' // 序列执行
+    | 'delay' // 延迟执行
+    | 'retry' // 重试步骤
+    | 'error_handler' // 错误处理
+    | 'workflow'; // 工作流调用
 
-// 🔧 条件定义
+// 🔧 条件定义（ConditionExpression）
 export interface Condition {
+    /** 字段路径（支持模板语法，如 "steps.stepId.output.field"） */
+    field?: string;
     /** 比较操作符 */
     operator: ConditionOperator;
     /** 左操作数，支持模板语法 */
@@ -124,21 +160,28 @@ export interface Condition {
     conditions?: Condition[];
 }
 
-// 🌌 条件操作符
+// 🌌 条件操作符（完整列表，匹配规范文档）
 export type ConditionOperator =
-    | 'eq'
-    | 'ne'
-    | 'gt'
-    | 'gte'
-    | 'lt'
-    | 'lte'
-    | 'in'
-    | 'nin'
-    | 'exists'
-    | 'not_exists'
-    | 'matches'
-    | 'and'
-    | 'or';
+    | 'eq' // 等于
+    | 'ne' // 不等于
+    | 'gt' // 大于
+    | 'gte' // 大于等于
+    | 'lt' // 小于
+    | 'lte' // 小于等于
+    | 'in' // 包含于数组
+    | 'nin' // 不包含于数组
+    | 'exists' // 字段存在
+    | 'not_exists' // 字段不存在
+    | 'startsWith' // 以...开始
+    | 'endsWith' // 以...结束
+    | 'contains' // 包含字符串
+    | 'isEmpty' // 为空
+    | 'isNotEmpty' // 不为空
+    | 'string_maxlen' // 字符串最大长度
+    | 'string_minlen' // 字符串最小长度
+    | 'matches' // 正则匹配
+    | 'and' // 逻辑与
+    | 'or'; // 逻辑或
 
 // 📜 条件步骤
 export interface ConditionStep extends BaseWorkflowStep {
@@ -155,7 +198,7 @@ export interface ConditionStep extends BaseWorkflowStep {
 export interface ActionStep extends BaseWorkflowStep {
     type: 'action';
     /** 目标服务/引擎名称 */
-    service: 'taiyi' | 'wenchang' | 'qianliyan' | 'maliang';
+    service: 'taiyi' | 'wenchang' | 'qianliyan' | 'maliang' | string;
     /** 调用的方法名 */
     action: string;
     /** 输入数据，支持模板语法 */
@@ -179,8 +222,8 @@ export type BuiltinAction = 'return' | 'setVariable' | 'log' | 'delay' | 'transf
 // 🔧 循环步骤
 export interface LoopStep extends BaseWorkflowStep {
     type: 'loop';
-    /** 迭代配置 */
-    iterator: {
+    /** 迭代配置（新格式） */
+    iterator?: {
         /** 数据源，支持模板语法 */
         source: string;
         /** 循环变量名 */
@@ -190,6 +233,8 @@ export interface LoopStep extends BaseWorkflowStep {
         /** 最大迭代次数 */
         limit?: number;
     };
+    /** 循环配置（规范文档格式，与 iterator 互斥） */
+    loop?: LoopConfig;
     /** 循环体步骤 */
     steps: WorkflowStep[];
     /** 退出条件 */
@@ -210,11 +255,13 @@ export interface LoopStep extends BaseWorkflowStep {
 // 🌌 并行步骤
 export interface ParallelStep extends BaseWorkflowStep {
     type: 'parallel';
-    /** 并行分支 */
-    branches: Array<{
+    /** 并行分支（新格式） */
+    branches?: Array<{
         name: string;
         steps: WorkflowStep[];
     }>;
+    /** 并行配置（规范文档格式，与 branches 互斥） */
+    parallel?: ParallelConfig;
     /** 最大并发分支数 */
     maxConcurrency?: number;
     /** 完成策略 */
@@ -325,6 +372,169 @@ export interface DebugConfiguration {
 // 🔧 模板变量引用
 // 🌌 从表达式解析器包导入类型
 export type { TemplateVariableReference } from '@systembug/zouwu-expression-parser';
+
+// 🌌 执行上下文（ExecutionContext）
+export interface ExecutionContext {
+    /** 执行唯一标识 */
+    executionId: string;
+    /** 工作流 ID */
+    workflowId: string;
+    /** 命令 ID */
+    commandId?: string;
+    /** 开始时间戳 */
+    startTime: number;
+    /** 当前步骤 ID */
+    currentStepId?: string;
+    /** 执行状态 */
+    status: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
+    /** 输入参数 */
+    input: Record<string, any>;
+    /** 输出结果 */
+    output?: Record<string, any>;
+    /** 运行时变量 */
+    variables: Record<string, any>;
+    /** 步骤执行结果 */
+    stepResults: Map<string, StepResult>;
+    /** 错误信息 */
+    error?: string;
+    /** 执行指标 */
+    metrics: {
+        stepCount: number;
+        successStepCount: number;
+        failedStepCount: number;
+        skippedStepCount: number;
+        totalDuration: number;
+    };
+}
+
+// 📜 步骤执行结果（StepResult）
+export interface StepResult {
+    /** 步骤 ID */
+    stepId: string;
+    /** 执行状态 */
+    status: 'pending' | 'running' | 'completed' | 'failed' | 'skipped';
+    /** 开始时间戳 */
+    startTime: number;
+    /** 结束时间戳 */
+    endTime?: number;
+    /** 执行耗时（毫秒） */
+    duration?: number;
+    /** 输出结果 */
+    output?: any;
+    /** 错误信息 */
+    error?: string;
+    /** 重试次数 */
+    retryCount: number;
+    /** 是否被跳过 */
+    skipped: boolean;
+    /** 跳过原因 */
+    skipReason?: string;
+}
+
+// 🌌 驺吾特性配置类型
+export interface GuardianConfig {
+    /** 温和模式 */
+    gentle?: boolean;
+    /** 安全保护 */
+    safe?: boolean;
+}
+
+export interface BenevolentConfig {
+    /** 非破坏性 */
+    nonDestructive?: boolean;
+    /** 保留原始数据 */
+    preserveOriginal?: boolean;
+}
+
+export interface WingsConfig {
+    /** 左翼分支 */
+    left?: string;
+    /** 右翼分支 */
+    right?: string;
+}
+
+export interface TailConfig {
+    /** 长尾特性 */
+    long?: boolean;
+    /** 优雅特性 */
+    graceful?: boolean;
+}
+
+// 📜 循环配置
+export interface LoopConfig {
+    /** 循环变量名 */
+    variable: string;
+    /** 循环次数或数据源（支持模板语法） */
+    count: number | string;
+    /** 循环体步骤 */
+    steps: WorkflowStep[];
+}
+
+// 🔧 并行配置
+export interface ParallelConfig {
+    /** 最大并发数 */
+    maxConcurrency?: number;
+    /** 并行步骤列表 */
+    steps: WorkflowStep[];
+}
+
+// 🌌 重试配置
+export interface RetryConfig {
+    /** 最大尝试次数 */
+    maxAttempts: number;
+    /** 延迟时间（毫秒） */
+    delay: number;
+    /** 退避策略 */
+    backoff?: 'linear' | 'exponential';
+    /** 重试条件 */
+    retryCondition?: Condition;
+}
+
+// 📜 错误处理配置
+export interface ErrorHandlerConfig {
+    /** 错误类型 */
+    errorType?: string;
+    /** 错误处理步骤 */
+    steps: WorkflowStep[];
+    /** 是否继续执行 */
+    continue?: boolean;
+}
+
+// 🔧 输入/输出定义（用于规范文档中的 Record 格式）
+export interface InputDefinition {
+    /** 参数类型 */
+    type: 'string' | 'number' | 'boolean' | 'object' | 'array';
+    /** 是否必需 */
+    required?: boolean;
+    /** 参数描述 */
+    description?: string;
+    /** 默认值 */
+    default?: any;
+    /** 验证规则 */
+    validation?: {
+        pattern?: string;
+        min?: number;
+        max?: number;
+        schema?: any;
+    };
+}
+
+export interface OutputDefinition {
+    /** 输出类型 */
+    type: 'string' | 'number' | 'boolean' | 'object' | 'array';
+    /** 输出描述 */
+    description?: string;
+}
+
+// 🌌 触发器定义
+export interface TriggerDefinition {
+    /** 意图触发 */
+    intent?: string;
+    /** 事件触发 */
+    event?: string;
+    /** 定时触发（cron格式） */
+    schedule?: string;
+}
 
 // 🌌 验证结果
 export interface ValidationResult {
