@@ -1,5 +1,5 @@
 /**
- * 📜 天枢工作流Schema到验证器生成器
+ * 📜 驺吾工作流Schema到验证器生成器
  *
  * 🌌 仙术功能：从JSON Schema生成运行时验证器
  * 🔧 工作流操作：生成Ajv验证器和TypeScript验证函数
@@ -107,7 +107,7 @@ export class SchemaToValidatorsGenerator {
         return `/**
  * ${title} - 验证器
  *
- * 🌌 此文件由天枢Schema验证器生成器自动生成，请勿手动修改
+ * 🌌 此文件由驺吾Schema验证器生成器自动生成，请勿手动修改
  * 📜 生成时间: ${new Date().toISOString()}
  * 🔧 支持功能：结构验证、模板语法验证、自定义错误信息
  */

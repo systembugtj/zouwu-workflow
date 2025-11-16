@@ -1,5 +1,5 @@
 /**
- * 📜 天枢工作流Schema到TypeScript类型生成器
+ * 📜 驺吾工作流Schema到TypeScript类型生成器
  *
  * 🌌 仙术功能：将JSON Schema转换为TypeScript类型定义
  * 🔧 工作流操作：从Schema中提取类型信息并生成完整的TS接口
@@ -116,7 +116,7 @@ export class SchemaToTypesGenerator {
  *
  * ${description}
  *
- * 🌌 此文件由天枢Schema生成器自动生成，请勿手动修改
+ * 🌌 此文件由驺吾Schema生成器自动生成，请勿手动修改
  * 📜 生成时间: ${new Date().toISOString()}
  */
 

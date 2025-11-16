@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * 🌌 天枢工作流Schema包构建脚本
+ * 🌌 驺吾工作流Schema包构建脚本
  *
  * 📜 仙术功能：编译TypeScript代码，生成示例类型和验证器
  * 🔧 工作流操作：自动化构建流程
@@ -11,7 +11,7 @@ const { execSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
-console.log("🌌 启动天枢Schema包构建仙术...");
+console.log("🌌 启动驺吾Schema包构建仙术...");
 
 const rootDir = path.join(__dirname, "..");
 const buildDir = path.join(rootDir, "dist");
@@ -185,7 +185,7 @@ function generateReadme() {
     try {
         const readmeContent = `# @systembug/workflow-schema
 
-🌌 天枢工作流Schema包 - 提供完整的工作流开发工具链
+🌌 驺吾工作流Schema包 - 提供完整的工作流开发工具链
 
 ## 📜 功能特性
 
@@ -274,7 +274,7 @@ async function main() {
         // 异步生成示例（不阻塞主流程）
         setTimeout(generateExamples, 1000);
 
-        console.log("🌌 天枢Schema包构建仙术完成！");
+        console.log("🌌 驺吾Schema包构建仙术完成！");
         console.log(`📁 构建目录: ${buildDir}`);
         console.log("🔧 可以通过以下命令发布:");
         console.log("  cd dist && npm publish");

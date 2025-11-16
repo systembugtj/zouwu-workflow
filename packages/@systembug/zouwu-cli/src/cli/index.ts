@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * 🌌 天枢工作流Schema CLI工具
+ * 🌌 驺吾工作流Schema CLI工具
  *
  * 📜 仙术功能：命令行界面，提供Schema验证、类型生成、验证器生成等功能
  * 🔧 工作流操作：统一的CLI入口，支持多种操作模式
@@ -24,7 +24,7 @@ const packageJson = JSON.parse(
     fs.readFileSync(path.join(__dirname, "../../package.json"), "utf-8"),
 );
 
-program.name("workflow").description("🌌 天枢工作流CLI工具集").version(packageJson.version);
+program.name("workflow").description("🌌 驺吾工作流CLI工具集").version(packageJson.version);
 
 /**
  * 📜 生成TypeScript类型定义命令
@@ -231,7 +231,7 @@ program
             // 创建配置文件
             const config = {
                 name: options.name || path.basename(projectDir),
-                description: options.description || "天枢工作流Schema项目",
+                description: options.description || "驺吾工作流Schema项目",
                 version: "1.0.0",
                 schemaVersion: "1.0.0",
                 schemas: {
@@ -273,7 +273,7 @@ program
                 name: "示例工作流",
                 description: "这是一个示例工作流，展示基本语法",
                 version: "1.0.0",
-                author: "天枢引擎",
+                author: "驺吾引擎",
                 inputs: [
                     {
                         name: "message",
@@ -335,7 +335,7 @@ program
     .command("version")
     .description("🌌 显示版本信息")
     .action(() => {
-        console.log(`🌌 天枢工作流Schema工具集
+        console.log(`🌌 驺吾工作流Schema工具集
 📜 版本: ${packageJson.version}
 🔧 功能: Schema验证、类型生成、验证器生成
 🌟 作者: @systembug`);

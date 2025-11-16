@@ -1,8 +1,8 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://schemas.systembug.io/workflow/v1.0.0/workflow.schema.json",
-    "title": "天枢工作流语法规范",
-    "description": "基于RFC 0039的天枢引擎YAML工作流完整语法定义",
+    "title": "驺吾工作流语法规范",
+    "description": "基于RFC 0039的驺吾引擎YAML工作流完整语法定义",
     "type": "object",
     "required": ["id", "name", "version", "steps"],
 

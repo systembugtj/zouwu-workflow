@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * 🌌 天枢工作流Schema包测试脚本
+ * 🌌 驺吾工作流Schema包测试脚本
  *
  * 📜 仙术功能：运行基础功能测试，验证Schema和生成器正确性
  * 🔧 工作流操作：自动化测试流程
@@ -11,7 +11,7 @@ const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
 
-console.log("🌌 启动天枢Schema包测试仙术...");
+console.log("🌌 启动驺吾Schema包测试仙术...");
 
 const rootDir = path.join(__dirname, "..");
 const testDir = path.join(rootDir, "test-output");
@@ -265,7 +265,7 @@ function createExamples() {
             name: "偏好设置更新示例",
             description: "展示如何更新用户偏好设置",
             version: "1.0.0",
-            author: "天枢引擎",
+            author: "驺吾引擎",
             triggers: [{ intent: "update_preferences" }],
             inputs: [
                 {
@@ -374,7 +374,7 @@ async function main() {
             results.push({ name: "示例文件创建", passed: createExamples() });
 
             // 输出测试结果
-            console.log("\n🌌 天枢Schema包测试结果总览:");
+            console.log("\n🌌 驺吾Schema包测试结果总览:");
             console.log("=".repeat(50));
 
             let totalPassed = 0;

@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://schemas.systembug.io/workflow/v1.0.0/step-types.schema.json",
-    "title": "天枢工作流步骤类型定义",
+    "title": "驺吾工作流步骤类型定义",
     "description": "工作流各类步骤的详细定义规范",
 
     "definitions": {

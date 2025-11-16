@@ -82,7 +82,7 @@ id: "preference_update"
 name: "偏好设置更新"
 description: "更新用户偏好设置的完整流程"
 version: "1.0.0"
-author: "天枢引擎"
+author: "驺吾引擎"
 
 triggers:
   - intent: "update_preferences"
@@ -170,7 +170,7 @@ npm run dev
 
 ## 📚 参考文档
 
-- [RFC 0039: 天枢工作流语法规范](../../../docs/rfc/0039-tianshu-workflow-syntax-specification.md)
+- [RFC 0039: 驺吾工作流语法规范](../../../docs/rfc/0039-tianshu-workflow-syntax-specification.md)
 - [工作流设计最佳实践](./docs/best-practices.md)
 - [API参考文档](./docs/api-reference.md)
 - [CLI工具完整指南](./docs/cli-guide.md)
@@ -191,7 +191,7 @@ MIT License - 详见 [LICENSE](./LICENSE) 文件
 
 ## 🌟 致谢
 
-- 感谢天枢引擎团队的设计理念
+- 感谢驺吾引擎团队的设计理念
 - 感谢开源社区的JSON Schema和Ajv项目
 - 感谢所有贡献者的努力
 
