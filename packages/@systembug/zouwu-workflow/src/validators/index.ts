@@ -618,6 +618,5 @@ export function validateWorkflowStrict(workflow: any): any {
     return result.data;
 }
 
-// 导出验证器类和相关类型
-export { WorkflowValidator };
+// 导出验证器类和相关类型（WorkflowValidator 已在类定义时导出）
 export type { ValidationResult, ValidationError };

@@ -11,7 +11,24 @@ import * as path from 'path';
 /**
  * 🌌 Schema文件路径配置
  */
-const SCHEMA_DIR = path.join(__dirname, '../../schemas');
+// 在编译后的代码中，schemas 会被复制到 build/schemas 目录
+// 尝试多个可能的路径
+function getSchemaDir(): string {
+    // 编译后的代码在 build/schemas/index.js，schemas 文件在同一目录
+    const sameDir = __dirname;
+    if (fs.existsSync(path.join(sameDir, 'workflow.schema.json'))) {
+        return sameDir;
+    }
+    // 如果在测试环境中，schemas 在 build/schemas 目录（与当前文件同级）
+    const testPath = path.join(__dirname, 'schemas');
+    if (fs.existsSync(testPath)) {
+        return testPath;
+    }
+    // 否则使用开发环境的路径
+    return path.join(__dirname, '../../schemas');
+}
+
+const SCHEMA_DIR = getSchemaDir();
 
 const SCHEMA_FILES = {
     workflow: 'workflow.schema.json',
