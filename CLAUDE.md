@@ -1,35 +1,35 @@
-# Zouwu Workflow Project Rules & Code Standards
+# Zouwu Workflow 项目规范与代码标准
 
-## Core Principles
+## 核心原则
 
-### Communication
+### 沟通方式
 
-- Use Chinese for all responses (dialogue and reasoning)
-- English only for mode declarations and code blocks
+- 所有回答使用中文（对话和思考过程）
+- 仅模式声明和代码块使用英文
 
-### Problem Solving
+### 问题解决
 
-- Provide minimum 2 different solution approaches for every problem
-- AI auto-selects and executes optimal solution
-- User can correct anytime
-- FIX issues, NEVER skip or workaround
+- 每个问题至少提供 2 个不同的解决方案
+- AI 自动选择并执行最优方案
+- 用户可随时纠错
+- 修复问题，绝不跳过或绕过
 
-## Code Standards
+## 代码标准
 
-### File Size Limits
+### 文件大小限制
 
-- Class files: max 200 lines
-- Function files: max 150 lines
-- Single function: max 50 lines
-- Max nesting depth: 3 levels
+- 类文件：最多 200 行
+- 函数文件：最多 150 行
+- 单个函数：最多 50 行
+- 最大嵌套层级：3 层
 
-### Pure Functions First (Linus Style)
+### 纯函数优先（Linus 风格）
 
 ```typescript
-// GOOD: Pure function, single responsibility
+// ✅ 推荐：纯函数，职责单一
 function validateConfig(config: unknown): ValidationResult {
     if (!config || typeof config !== 'object') {
-        return { valid: false, error: 'Invalid config' };
+        return { valid: false, error: '无效配置' };
     }
     return { valid: true, data: config };
 }
@@ -41,38 +41,38 @@ function transformData(data: ValidData): TransformedData {
     };
 }
 
-// BAD: Large class with mixed responsibilities
+// ❌ 避免：大型类，职责混乱
 class DataProcessor {
     processData() {
-        /* 200+ lines */
+        /* 200+ 行 */
     }
     validateData() {
-        /* 100+ lines */
+        /* 100+ 行 */
     }
     transformData() {
-        /* 150+ lines */
+        /* 150+ 行 */
     }
 }
 ```
 
-### Code Quality
+### 代码质量
 
-- Key code needs explanatory comments
-- Functions over 100 lines must be refactored
-- Proper error handling for edge cases
-- Clear and consistent naming
-- No assumptions in code - complete implementation only
+- 关键代码需要解释性注释
+- 超过 100 行的函数必须重构
+- 妥善处理异常和边缘情况
+- 清晰一致的命名规范
+- 禁止假设性代码 - 只交付完整实现
 
-### TypeScript Specifics
+### TypeScript 规范
 
-- Strict type checking enabled
-- Avoid `any` type - use `unknown` or proper types
-- Prefer `interface` over `type` for object shapes
-- Use discriminated unions for state management
+- 启用严格类型检查
+- 避免使用 `any` - 使用 `unknown` 或正确的类型
+- 对象类型优先使用 `interface` 而非 `type`
+- 使用联合类型进行状态管理
 
-## Project Structure
+## 项目结构
 
-### Monorepo Setup (pnpm workspace)
+### Monorepo 设置（pnpm workspace）
 
 ```
 zouwu-workflow/
@@ -83,145 +83,145 @@ zouwu-workflow/
 └── package.json
 ```
 
-### Key Rules
+### 关键规则
 
-- Check package dependencies before modifications
-- Shared utilities go in common packages
-- NO circular dependencies
-- Each package must have clear responsibility
+- 修改前检查包依赖关系
+- 共享工具放在公共包中
+- 禁止循环依赖
+- 每个包必须有清晰的职责
 
-## Testing Requirements
+## 测试要求
 
-### Coverage
+### 覆盖率
 
-- Unit test coverage: minimum 80%
-- Critical paths: 100% coverage required
-- Integration tests for key workflows
+- 单元测试覆盖率：最低 80%
+- 关键路径：要求 100% 覆盖
+- 关键工作流需要集成测试
 
-### Test Structure
+### 测试结构
 
 ```typescript
-describe('Feature', () => {
-    it('should handle normal case', () => {
-        // Arrange
-        // Act
-        // Assert
+describe('功能模块', () => {
+    it('应正确处理正常情况', () => {
+        // Arrange - 准备
+        // Act - 执行
+        // Assert - 断言
     });
 
-    it('should handle edge case', () => {
-        // Test edge cases
+    it('应正确处理边界情况', () => {
+        // 测试边界情况
     });
 
-    it('should handle errors', () => {
-        // Test error scenarios
+    it('应正确处理错误', () => {
+        // 测试错误场景
     });
 });
 ```
 
-## Git Commit Standards
+## Git 提交规范
 
 ### Conventional Commits
 
 ```
-feat: add new feature
-fix: bug fix
-docs: documentation only
-refactor: code refactoring
-test: add/update tests
-chore: build/tooling changes
-perf: performance improvement
+feat: 新功能
+fix: 修复 bug
+docs: 仅文档修改
+refactor: 代码重构
+test: 添加/更新测试
+chore: 构建/工具变更
+perf: 性能优化
 ```
 
-### Commit Message Format
+### 提交信息格式
 
 ```
-<type>(<scope>): <subject>
+<类型>(<范围>): <主题>
 
-<body>
+<正文>
 
-<footer>
+<页脚>
 ```
 
-## Error Handling
+## 错误处理
 
-### Auto-Pause Scenarios
+### 自动暂停场景
 
-1. AI fails 2 consecutive times
-2. Unrecoverable errors encountered
-3. High-risk operations detected:
-    - Database schema changes
-    - Production config modifications
-    - Data deletion operations
+1. AI 连续失败 2 次
+2. 遇到不可恢复错误
+3. 检测到高风险操作：
+    - 数据库结构变更
+    - 生产环境配置修改
+    - 数据删除操作
 
-### Recovery Process
+### 恢复流程
 
-1. Output detailed diagnostics
-2. Wait for user confirmation
-3. User can redirect or correct anytime
+1. 输出详细诊断信息
+2. 等待用户确认
+3. 用户可随时重定向或纠正
 
-## Development Workflow
+## 开发工作流
 
-### Mode Flow
+### 模式流程
 
-Research → Ideate → Plan → Validate → Execute → Review
+研究 → 创新 → 规划 → 验证 → 执行 → 审查
 
-### Smart Mode Trigger
+### 智能模式触发
 
-- Use `!!!` to trigger single-pass complete flow
-- AI auto-determines when to use smart mode
-- Complex tasks use full mode flow
+- 使用 `!!!` 触发单次完整流程
+- AI 自动判断何时使用智能模式
+- 复杂任务使用完整模式流程
 
-## Critical Rules
+## 关键规则
 
-### NEVER
+### 绝不允许
 
-- Leave incomplete functionality
-- Use unverified dependencies
-- Skip error handling
-- Create fake/placeholder implementations
-- Use workarounds instead of fixes
-- Modify unrelated code
-- Break existing functionality
+- 留下不完整的功能
+- 使用未验证的依赖
+- 跳过错误处理
+- 创建假代码或占位符实现
+- 用变通方案代替修复
+- 修改无关代码
+- 破坏现有功能
 
-### ALWAYS
+### 必须做到
 
-- Fix root cause, not symptoms
-- Write complete, working code
-- Test critical paths
-- Document design decisions
-- Follow project conventions
-- Validate before executing
+- 修复根本原因，而非症状
+- 编写完整可用的代码
+- 测试关键路径
+- 记录设计决策
+- 遵循项目规范
+- 执行前验证
 
-## Performance Standards
+## 性能标准
 
-### Response Time
+### 响应时间
 
-- Normal interactions: under 30 seconds
-- Complex tasks: provide progress updates
-- Timeout handling: degrade gracefully or split tasks
+- 常规交互：30 秒以内
+- 复杂任务：提供进度更新
+- 超时处理：优雅降级或拆分任务
 
-### Code Efficiency
+### 代码效率
 
-- Optimize critical paths
-- Avoid unnecessary iterations
-- Use appropriate data structures
-- Profile before optimizing
+- 优化关键路径
+- 避免不必要的迭代
+- 使用合适的数据结构
+- 优化前先分析
 
-## Documentation Requirements
+## 文档要求
 
-### Code Comments
+### 代码注释
 
-- Complex logic must be explained
-- Public APIs need JSDoc
-- Non-obvious decisions need rationale
+- 复杂逻辑必须解释
+- 公共 API 需要 JSDoc
+- 非显而易见的决策需要说明理由
 
-### Project Docs
+### 项目文档
 
-- Architecture decisions in /docs
-- API documentation for public interfaces
-- Setup and deployment guides
-- Changelog for releases
+- 架构决策记录在 /docs
+- 公共接口的 API 文档
+- 安装和部署指南
+- 版本发布日志
 
 ---
 
-**Remember**: Direct, efficient, zero bullshit. Write minimal code to solve problems. No over-engineering. No fake information.
+**记住**：直接、高效、零废话。用最少的代码解决问题。不过度设计。不伪造信息。
