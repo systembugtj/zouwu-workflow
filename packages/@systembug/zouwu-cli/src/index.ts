@@ -10,7 +10,7 @@ export * from './generators/schema-to-types';
 export * from './generators/schema-to-validators';
 
 // 导出CLI工具（用于程序化调用）
-export { program as workflowCli } from './cli/index';
+// program 在 cli/index.ts 中未导出，这里只导出生成器
 
 /**
  * 🌌 CLI工具包信息

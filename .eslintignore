@@ -9,4 +9,4 @@ docs/.vitepress/.temp/**
 docs/.vitepress/dist/**
 docs/.vitepress/cache/**
 .vitepress/**
-test-output/**
+**/test-output/**

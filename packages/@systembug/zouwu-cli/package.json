@@ -43,7 +43,7 @@
         "prepublishOnly": "npm run lint && npm run test && npm run build"
     },
     "dependencies": {
-        "@systembug/workflow-schema": "^1.0.0",
+        "@systembug/zouwu-workflow": "file:../zouwu-workflow",
         "commander": "^9.5.0",
         "chalk": "^4.1.2",
         "js-yaml": "^4.1.0",
