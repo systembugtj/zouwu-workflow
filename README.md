@@ -2,6 +2,8 @@
 
 🌌 驺吾工作流 - 基于 Nx Monorepo 的工作流 Schema 定义和验证系统
 
+📖 **[在线文档](https://systembugtj.github.io/zouwu-workflow/)** | [GitHub](https://github.com/systembugtj/zouwu-workflow)
+
 ## 📜 项目概述
 
 Zouwu Workflow 是一个基于 Nx 的 monorepo 项目，提供完整的工作流 Schema 定义、TypeScript 类型生成、运行时验证器和命令行工具。项目采用古代中国仙侠主题，以"驺吾"（五彩斑斓、仁德守护的神兽）命名。
@@ -146,6 +148,15 @@ type: 简短描述
 ```
 
 ## 📖 相关文档
+
+- **[在线文档](https://systembugtj.github.io/zouwu-workflow/)** - 完整的项目文档和 API 参考
+- [工作流规范文档](https://systembugtj.github.io/zouwu-workflow/zouwu-workflow-specification-v1.0) - 工作流规范 v1.0
+- [快速开始指南](https://systembugtj.github.io/zouwu-workflow/getting-started) - 快速上手指南
+- [核心包文档](https://systembugtj.github.io/zouwu-workflow/packages/zouwu-workflow) - 核心 Schema 包文档
+- [CLI 工具文档](https://systembugtj.github.io/zouwu-workflow/packages/zouwu-cli) - CLI 工具使用指南
+- [表达式解析器文档](https://systembugtj.github.io/zouwu-workflow/packages/zouwu-expression-parser) - 表达式解析器文档
+
+### 本地文档
 
 - [工作流规范文档](./packages/@systembug/zouwu-workflow/docs/zouwu-workflow-specification-v1.0.md)
 - [核心包 README](./packages/@systembug/zouwu-workflow/README.md)
