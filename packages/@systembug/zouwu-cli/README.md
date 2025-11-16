@@ -26,10 +26,10 @@
 
 ```bash
 # 全局安装CLI工具
-npm install -g @systembug/workflow-cli
+npm install -g @systembug/zouwu-cli
 
 # 或者项目本地安装
-npm install --save-dev @systembug/workflow-cli
+npm install --save-dev @systembug/zouwu-cli
 ```
 
 ### CLI使用
@@ -58,23 +58,23 @@ workflow version
 
 ```typescript
 import {
-  generateTypesFromSchema,
-  generateValidatorsFromSchema
-} from '@systembug/workflow-schema-cli';
+    generateTypesFromSchema,
+    generateValidatorsFromSchema
+} from '@systembug/zouwu-cli';
 
 // 生成类型定义
 await generateTypesFromSchema({
-  schemaPath: './schemas/workflow.schema.json',
-  outputPath: './types/workflow.types.ts',
-  generateDocs: true
+    schemaPath: './schemas/workflow.schema.json',
+    outputPath: './types/workflow.types.ts',
+    generateDocs: true
 });
 
 // 生成验证器
 await generateValidatorsFromSchema({
-  schemaPath: './schemas/workflow.schema.json',
-  outputPath: './validators/workflow.validators.ts',
-  strict: true,
-  chineseErrors: true
+    schemaPath: './schemas/workflow.schema.json',
+    outputPath: './validators/workflow.validators.ts',
+    strict: true,
+    chineseErrors: true
 });
 ```
 
@@ -83,7 +83,7 @@ await generateValidatorsFromSchema({
 ### `init` - 项目初始化
 
 ```bash
-workflow-schema init [目录] [选项]
+workflow init [目录] [选项]
 ```
 
 创建完整的工作流Schema项目结构，包括：
@@ -95,7 +95,7 @@ workflow-schema init [目录] [选项]
 ### `generate-types` - 类型生成
 
 ```bash
-workflow-schema generate-types -s <schema文件> -o <输出文件> [选项]
+workflow generate-types -s <schema文件> -o <输出文件> [选项]
 ```
 
 从JSON Schema生成TypeScript类型定义，支持：
@@ -106,7 +106,7 @@ workflow-schema generate-types -s <schema文件> -o <输出文件> [选项]
 ### `generate-validators` - 验证器生成
 
 ```bash
-workflow-schema generate-validators -s <schema文件> -o <输出文件> [选项]
+workflow generate-validators -s <schema文件> -o <输出文件> [选项]
 ```
 
 生成基于Ajv的运行时验证器，提供：
@@ -117,7 +117,7 @@ workflow-schema generate-validators -s <schema文件> -o <输出文件> [选项]
 ### `generate-all` - 批量生成
 
 ```bash
-workflow-schema generate-all -s <schema目录> -o <输出目录> [选项]
+workflow generate-all -s <schema目录> -o <输出目录> [选项]
 ```
 
 批量处理整个Schema目录，一次性生成所有类型和验证器。
@@ -125,7 +125,7 @@ workflow-schema generate-all -s <schema目录> -o <输出目录> [选项]
 ### `validate` - 工作流验证
 
 ```bash
-workflow-schema validate -f <工作流文件> [选项]
+workflow validate -f <工作流文件> [选项]
 ```
 
 验证YAML/JSON工作流文件的正确性，支持：
@@ -136,7 +136,7 @@ workflow-schema validate -f <工作流文件> [选项]
 ## 📚 依赖关系
 
 本包依赖以下核心包：
-- `@systembug/workflow-schema` - 核心Schema定义和验证器
+- `@systembug/zouwu-workflow` - 核心Schema定义和验证器
 - `commander` - CLI框架
 - `chalk` - 彩色输出
 - `json-schema-to-typescript` - TypeScript类型生成

@@ -21,26 +21,9 @@ zouwu-workflow/
 ├── packages/
 │   └── @systembug/
 │       ├── zouwu-workflow/          # 核心 Schema 包
-│       │   ├── schemas/             # JSON Schema 定义
-│       │   ├── src/                 # 源代码
-│       │   │   ├── schemas/         # Schema 加载器
-│       │   │   ├── types/           # TypeScript 类型定义
-│       │   │   └── validators/      # 运行时验证器
-│       │   └── examples/            # 示例工作流
 │       ├── zouwu-cli/               # CLI 工具包
-│       │   ├── src/
-│       │   │   ├── cli/             # CLI 入口
-│       │   │   └── generators/      # 代码生成器
-│       │   └── templates/          # 代码生成模板
-│       └── zouwu-expression-parser/ # 表达式解析器包
-│           └── src/
-│               ├── parser.ts        # 表达式解析器
-│               ├── validator.ts     # 表达式验证器
-│               └── types.ts        # 类型定义
-├── .editorconfig              # 编辑器配置（4 空格缩进）
-├── .prettierrc                # Prettier 配置
-├── .eslintrc.json             # ESLint 配置
-└── nx.json                    # Nx 工作区配置
+│       └── zouwu-expression-parser/  # 表达式解析器包
+└── docs/                            # 文档目录
 ```
 
 ## 🚀 快速开始
@@ -67,27 +50,6 @@ npm run lint
 npm run lint:fix
 ```
 
-### 构建项目
-
-```bash
-# 构建所有包
-npx nx run-many --target=build --all
-
-# 构建特定包
-npx nx build @systembug/zouwu-workflow
-npx nx build @systembug/zouwu-cli
-```
-
-### 运行测试
-
-```bash
-# 运行所有测试
-npx nx run-many --target=test --all
-
-# 运行特定包的测试
-npx nx test @systembug/zouwu-workflow
-```
-
 ## 📚 包说明
 
 ### @systembug/zouwu-workflow
@@ -98,8 +60,6 @@ npx nx test @systembug/zouwu-workflow
 - **类型定义**：TypeScript 接口和类型
 - **验证器**：运行时工作流验证功能
 
-详细文档请查看 [packages/@systembug/zouwu-workflow/README.md](./packages/@systembug/zouwu-workflow/README.md)
-
 ### @systembug/zouwu-cli
 
 命令行工具包，提供：
@@ -108,17 +68,13 @@ npx nx test @systembug/zouwu-workflow
 - **工作流验证**：验证 YAML/JSON 工作流文件
 - **项目初始化**：快速创建工作流项目结构
 
-详细文档请查看 [packages/@systembug/zouwu-cli/README.md](./packages/@systembug/zouwu-cli/README.md)
-
 ### @systembug/zouwu-expression-parser
 
 表达式解析器包，提供：
 
-- **表达式解析**：解析 `{{...}}` 模板语法
+- **表达式解析**：解析 `\{\{...\}\}` 模板语法
 - **变量提取**：提取和识别变量引用
 - **表达式验证**：验证变量引用的有效性
-
-详细文档请查看 [packages/@systembug/zouwu-expression-parser/README.md](./packages/@systembug/zouwu-expression-parser/README.md)
 
 ## 🔧 开发规范
 
@@ -135,21 +91,12 @@ npx nx test @systembug/zouwu-workflow
 - **Prettier**：`.prettierrc` 配置代码格式化
 - **ESLint**：`.eslintrc.json` 配置代码检查
 
-### 提交规范
-
-提交信息应清晰描述更改内容，建议使用以下格式：
-
-```
-type: 简短描述
-
-详细说明（可选）
-```
-
 ## 📖 相关文档
 
-- [工作流规范文档](./packages/@systembug/zouwu-workflow/docs/zouwu-workflow-specification-v1.0.md)
-- [核心包 README](./packages/@systembug/zouwu-workflow/README.md)
-- [CLI 工具 README](./packages/@systembug/zouwu-cli/README.md)
+- [工作流规范文档](./zouwu-workflow-specification-v1.0.md)
+- [核心包文档](/packages/zouwu-workflow)
+- [CLI 工具文档](/packages/zouwu-cli)
+- [表达式解析器文档](/packages/zouwu-expression-parser)
 
 ## 🤝 贡献指南
 
@@ -165,11 +112,7 @@ type: 简短描述
 
 MIT License - 详见各包的 LICENSE 文件
 
-## 🌟 致谢
-
-- 感谢 Nx 团队提供的优秀 monorepo 工具
-- 感谢所有贡献者的努力
-
 ---
 
 🌌 让工作流开发充满古典韵味，同时保持现代化的技术水准！
+

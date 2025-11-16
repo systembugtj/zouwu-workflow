@@ -323,18 +323,8 @@ export interface DebugConfiguration {
 }
 
 // 🔧 模板变量引用
-export interface TemplateVariableReference {
-    /** 变量类型 */
-    type: "inputs" | "variables" | "steps" | "loopContext" | "branchContext";
-    /** 变量路径 */
-    path: string;
-    /** 完整表达式 */
-    expression: string;
-    /** 是否包含默认值 */
-    hasDefault: boolean;
-    /** 默认值 */
-    defaultValue?: any;
-}
+// 🌌 从表达式解析器包导入类型
+export type { TemplateVariableReference } from "@systembug/zouwu-expression-parser";
 
 // 🌌 验证结果
 export interface ValidationResult {

@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🌌 运行 pre-push 检查..."
+
+# 运行所有包的测试
+echo "🧪 运行表达式解析器测试..."
+cd packages/@systembug/zouwu-expression-parser && npm test || exit 1
+cd ../../..
+
+echo "🧪 运行工作流包测试..."
+cd packages/@systembug/zouwu-workflow && npm test || exit 1
+cd ../../..
+
+echo "🧪 运行 CLI 包测试..."
+cd packages/@systembug/zouwu-cli && npm test || exit 1
+cd ../../..
+
+echo "✅ pre-push 检查通过！"
+

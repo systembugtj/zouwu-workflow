@@ -7,6 +7,7 @@
 
 import { ValidationResult, ValidationError } from "../types";
 import { getWorkflowSchema, getStepTypesSchema } from "../schemas";
+import { validateTemplateExpressionsInObject } from "@systembug/zouwu-expression-parser";
 
 /**
  * 🌌 基础验证器类
@@ -568,83 +569,19 @@ export class WorkflowValidator {
             }
         }
 
-        // 验证模板变量引用
-        this.validateTemplateReferences(workflow, availableVariables, errors);
-    }
+        // 使用表达式解析器验证模板变量引用
+        const validationResult = validateTemplateExpressionsInObject(
+            workflow,
+            availableVariables,
+            "root",
+        );
 
-    /**
-     * 🌌 验证模板引用
-     */
-    private validateTemplateReferences(
-        obj: any,
-        availableVariables: Set<string>,
-        errors: ValidationError[],
-        currentPath = "root",
-    ): void {
-        if (typeof obj === "string") {
-            // 查找模板变量 {{...}}
-            const templateMatches = obj.matchAll(/\{\{([^}]+)\}\}/g);
-            for (const match of templateMatches) {
-                const expression = match[1].trim();
-                this.validateSingleTemplateExpression(
-                    expression,
-                    availableVariables,
-                    currentPath,
-                    errors,
-                );
-            }
-        } else if (Array.isArray(obj)) {
-            obj.forEach((item, index) => {
-                this.validateTemplateReferences(
-                    item,
-                    availableVariables,
-                    errors,
-                    `${currentPath}[${index}]`,
-                );
-            });
-        } else if (obj && typeof obj === "object") {
-            for (const [key, value] of Object.entries(obj)) {
-                this.validateTemplateReferences(
-                    value,
-                    availableVariables,
-                    errors,
-                    `${currentPath}.${key}`,
-                );
-            }
-        }
-    }
-
-    /**
-     * 📜 验证单个模板表达式
-     */
-    private validateSingleTemplateExpression(
-        expression: string,
-        availableVariables: Set<string>,
-        currentPath: string,
-        errors: ValidationError[],
-    ): void {
-        // 简单的变量路径提取（忽略复杂的JavaScript表达式）
-        const variablePattern = /^(inputs|variables|steps)\.[a-zA-Z_][a-zA-Z0-9_.]*$/;
-        const match = expression.match(variablePattern);
-
-        if (match) {
-            const variablePath = match[0];
-            const basePath = variablePath.split(".").slice(0, 2).join(".");
-
-            // 检查基础路径是否存在
-            let found = false;
-            for (const availableVar of availableVariables) {
-                if (availableVar.startsWith(basePath)) {
-                    found = true;
-                    break;
-                }
-            }
-
-            if (!found) {
+        if (!validationResult.valid) {
+            for (const error of validationResult.errors) {
                 errors.push({
-                    path: currentPath,
-                    message: `引用了未定义的变量: ${variablePath}`,
-                    value: expression,
+                    path: error.path,
+                    message: error.message,
+                    value: error.value,
                 });
             }
         }

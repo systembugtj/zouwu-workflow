@@ -1,13 +1,13 @@
-# @systembug/workflow-schema
+# @systembug/zouwu-workflow
 
-🌌 天枢工作流Schema核心包 - 基于RFC 0039的Schema定义和运行时验证器
+🌌 驺吾工作流Schema核心包 - Schema定义和运行时验证器
 
 ## 📜 项目概述
 
-`@systembug/workflow-schema` 是核心Schema包，基于[RFC 0039: 天枢工作流语法规范](../../../docs/rfc/0039-tianshu-workflow-syntax-specification.md)设计，为天枢引擎工作流系统提供JSON Schema定义、TypeScript类型和运行时验证器。
+`@systembug/zouwu-workflow` 是核心Schema包，为驺吾工作流系统提供JSON Schema定义、TypeScript类型和运行时验证器。
 
 **📦 相关包**：
-- `@systembug/workflow-cli` - 命令行工具包，提供代码生成和项目管理功能
+- `@systembug/zouwu-cli` - 命令行工具包，提供代码生成和项目管理功能
 
 ## 🌟 核心特性
 
@@ -31,70 +31,46 @@
 ### 安装
 
 ```bash
-npm install @systembug/workflow-schema
-# 或者全局安装CLI工具
-npm install -g @systembug/workflow-schema
+npm install @systembug/zouwu-workflow
 ```
 
-### CLI使用
-
-```bash
-# 初始化新项目
-workflow-schema init my-workflow-project
-
-# 生成TypeScript类型
-workflow-schema generate-types -s workflow.schema.json -o types.ts
-
-# 生成验证器
-workflow-schema generate-validators -s workflow.schema.json -o validators.ts
-
-# 批量生成所有代码
-workflow-schema generate-all -s schemas/ -o generated/
-
-# 验证工作流文件
-workflow-schema validate -f my-workflow.yml --verbose
-```
-
-### 编程接口
+### 使用示例
 
 ```typescript
 import {
-  validateWorkflow,
-  generateTypesFromSchema,
-  WorkflowDefinition
-} from '@systembug/workflow-schema';
+    validateWorkflow,
+    getWorkflowSchema,
+    WorkflowValidator
+} from '@systembug/zouwu-workflow';
 
 // 验证工作流
-const workflow: WorkflowDefinition = {
-  id: 'example_workflow',
-  name: '示例工作流',
-  version: '1.0.0',
-  steps: [
-    {
-      id: 'hello_world',
-      type: 'builtin',
-      action: 'log',
-      input: {
-        level: 'info',
-        message: 'Hello, World!'
-      }
-    }
-  ]
+const workflow = {
+    id: 'example_workflow',
+    name: '示例工作流',
+    version: '1.0.0',
+    steps: [
+        {
+            id: 'hello_world',
+            type: 'builtin',
+            action: 'log',
+            input: {
+                level: 'info',
+                message: 'Hello, World!'
+            }
+        }
+    ]
 };
 
 const result = validateWorkflow(workflow);
 if (result.valid) {
-  console.log('🌌 工作流验证通过');
+    console.log('🌌 工作流验证通过');
 } else {
-  console.error('❌ 验证失败:', result.errors);
+    console.error('❌ 验证失败:', result.errors);
 }
 
-// 生成类型定义
-await generateTypesFromSchema({
-  schemaPath: './schemas/workflow.schema.json',
-  outputPath: './types/workflow.types.ts',
-  generateDocs: true
-});
+// 获取 Schema
+const schema = getWorkflowSchema();
+console.log('Schema ID:', schema.$id);
 ```
 
 ## 📋 工作流语法示例

@@ -37,7 +37,24 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+desktop.ini
 
+# Backup files
+*.bak
+*.backup
+*~
+*.swp
+*.swo
+*.tmp
+
+# Editor files
+.idea/
+*.sublime-*
+
+# Test output
+test-output
+
+# Nx
 .nx/cache
 .nx/workspace-data
 .cursor/rules/nx-rules.mdc

@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🌌 运行 pre-commit 检查..."
+
+# 运行 lint 检查
+echo "📜 运行 ESLint..."
+npm run lint || exit 1
+
+# 运行格式检查
+echo "✨ 检查代码格式..."
+npm run format:check || exit 1
+
+# 运行表达式解析器包的测试（有 Jest 测试）
+echo "🧪 运行表达式解析器测试..."
+cd packages/@systembug/zouwu-expression-parser && npm test || exit 1
+cd ../../..
+
+echo "✅ pre-commit 检查通过！"
