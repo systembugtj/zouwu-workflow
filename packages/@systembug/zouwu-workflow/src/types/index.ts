@@ -40,7 +40,7 @@ export interface WorkflowDefinition {
     /** 工作流超时时间（毫秒） */
     timeout?: number;
     /** 执行优先级 */
-    priority?: "system" | "user" | "background";
+    priority?: 'system' | 'user' | 'background';
     /** 失败时是否重试 */
     retryOnFailure?: boolean;
     /** 最大重试次数 */
@@ -68,7 +68,7 @@ export interface ParameterDefinition {
     /** 参数名称 */
     name: string;
     /** 参数类型 */
-    type: "string" | "number" | "boolean" | "object" | "array";
+    type: 'string' | 'number' | 'boolean' | 'object' | 'array';
     /** 是否必需 */
     required?: boolean;
     /** 参数描述 */
@@ -98,7 +98,7 @@ export interface BaseWorkflowStep {
     /** 步骤超时时间（毫秒） */
     timeout?: number;
     /** 执行优先级 */
-    priority?: "low" | "normal" | "high";
+    priority?: 'low' | 'normal' | 'high';
     /** 是否异步执行 */
     async?: boolean;
     /** 错误处理策略 */
@@ -110,7 +110,7 @@ export interface BaseWorkflowStep {
 }
 
 // 📜 步骤类型枚举
-export type StepType = "condition" | "action" | "builtin" | "loop" | "parallel" | "workflow";
+export type StepType = 'condition' | 'action' | 'builtin' | 'loop' | 'parallel' | 'workflow';
 
 // 🔧 条件定义
 export interface Condition {
@@ -126,23 +126,23 @@ export interface Condition {
 
 // 🌌 条件操作符
 export type ConditionOperator =
-    | "eq"
-    | "ne"
-    | "gt"
-    | "gte"
-    | "lt"
-    | "lte"
-    | "in"
-    | "nin"
-    | "exists"
-    | "not_exists"
-    | "matches"
-    | "and"
-    | "or";
+    | 'eq'
+    | 'ne'
+    | 'gt'
+    | 'gte'
+    | 'lt'
+    | 'lte'
+    | 'in'
+    | 'nin'
+    | 'exists'
+    | 'not_exists'
+    | 'matches'
+    | 'and'
+    | 'or';
 
 // 📜 条件步骤
 export interface ConditionStep extends BaseWorkflowStep {
-    type: "condition";
+    type: 'condition';
     /** 条件表达式 */
     condition: Condition;
     /** 条件为真时执行的步骤 */
@@ -153,9 +153,9 @@ export interface ConditionStep extends BaseWorkflowStep {
 
 // 🔧 动作步骤
 export interface ActionStep extends BaseWorkflowStep {
-    type: "action";
+    type: 'action';
     /** 目标服务/引擎名称 */
-    service: "taiyi" | "wenchang" | "qianliyan" | "maliang";
+    service: 'taiyi' | 'wenchang' | 'qianliyan' | 'maliang';
     /** 调用的方法名 */
     action: string;
     /** 输入数据，支持模板语法 */
@@ -166,7 +166,7 @@ export interface ActionStep extends BaseWorkflowStep {
 
 // 🌌 内置操作步骤
 export interface BuiltinStep extends BaseWorkflowStep {
-    type: "builtin";
+    type: 'builtin';
     /** 内置操作类型 */
     action: BuiltinAction;
     /** 操作参数 */
@@ -174,11 +174,11 @@ export interface BuiltinStep extends BaseWorkflowStep {
 }
 
 // 📜 内置操作类型
-export type BuiltinAction = "return" | "setVariable" | "log" | "delay" | "transform" | "error";
+export type BuiltinAction = 'return' | 'setVariable' | 'log' | 'delay' | 'transform' | 'error';
 
 // 🔧 循环步骤
 export interface LoopStep extends BaseWorkflowStep {
-    type: "loop";
+    type: 'loop';
     /** 迭代配置 */
     iterator: {
         /** 数据源，支持模板语法 */
@@ -202,14 +202,14 @@ export interface LoopStep extends BaseWorkflowStep {
     concurrency?: number;
     /** 错误处理 */
     onError?: {
-        type: "continue" | "break" | "fail";
+        type: 'continue' | 'break' | 'fail';
         maxErrors?: number;
     };
 }
 
 // 🌌 并行步骤
 export interface ParallelStep extends BaseWorkflowStep {
-    type: "parallel";
+    type: 'parallel';
     /** 并行分支 */
     branches: Array<{
         name: string;
@@ -218,18 +218,18 @@ export interface ParallelStep extends BaseWorkflowStep {
     /** 最大并发分支数 */
     maxConcurrency?: number;
     /** 完成策略 */
-    waitFor?: "all" | "any" | "majority";
+    waitFor?: 'all' | 'any' | 'majority';
     /** 失败策略 */
-    failOn?: "any" | "all" | "majority";
+    failOn?: 'any' | 'all' | 'majority';
     /** 结果合并策略 */
-    mergeStrategy?: "object" | "array" | "first";
+    mergeStrategy?: 'object' | 'array' | 'first';
     /** 输出映射 */
     output?: Record<string, string>;
 }
 
 // 📜 工作流调用步骤
 export interface WorkflowCallStep extends BaseWorkflowStep {
-    type: "workflow";
+    type: 'workflow';
     /** 子工作流ID */
     workflowId: string;
     /** 传递给子工作流的输入 */
@@ -249,17 +249,17 @@ export type WorkflowStep =
 export interface ErrorHandler {
     /** 错误处理类型 */
     type:
-        | "retry"
-        | "graceful_failure"
-        | "return_error"
-        | "escalate"
-        | "continue"
-        | "break"
-        | "fail";
+        | 'retry'
+        | 'graceful_failure'
+        | 'return_error'
+        | 'escalate'
+        | 'continue'
+        | 'break'
+        | 'fail';
     /** 最大重试次数 */
     maxRetries?: number;
     /** 退避策略 */
-    backoff?: "linear" | "exponential" | "fixed";
+    backoff?: 'linear' | 'exponential' | 'fixed';
     /** 初始延迟（毫秒） */
     delay?: number;
     /** 退避倍数 */
@@ -281,9 +281,9 @@ export interface ResourceConfiguration {
     /** 存储限制 */
     storage?: string;
     /** 网络访问限制 */
-    network?: "unlimited" | "limited" | "offline";
+    network?: 'unlimited' | 'limited' | 'offline';
     /** 资源优先级 */
-    priority?: "low" | "normal" | "high";
+    priority?: 'low' | 'normal' | 'high';
 }
 
 // 🔧 工作流元数据
@@ -316,7 +316,7 @@ export interface TestingConfiguration {
 // 📜 调试配置
 export interface DebugConfiguration {
     enabled?: boolean;
-    logLevel?: "debug" | "info" | "warn" | "error";
+    logLevel?: 'debug' | 'info' | 'warn' | 'error';
     traceSteps?: boolean;
     breakpoints?: string[];
     variables?: string[];
@@ -324,7 +324,7 @@ export interface DebugConfiguration {
 
 // 🔧 模板变量引用
 // 🌌 从表达式解析器包导入类型
-export type { TemplateVariableReference } from "@systembug/zouwu-expression-parser";
+export type { TemplateVariableReference } from '@systembug/zouwu-expression-parser';
 
 // 🌌 验证结果
 export interface ValidationResult {

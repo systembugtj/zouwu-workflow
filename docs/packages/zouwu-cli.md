@@ -26,4 +26,3 @@ workflow generate-types -s schema.json -o types.ts
 # 验证工作流
 workflow validate -f workflow.yml
 ```
-

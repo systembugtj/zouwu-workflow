@@ -6,26 +6,26 @@
  */
 
 // 导出代码生成器
-export * from "./generators/schema-to-types";
-export * from "./generators/schema-to-validators";
+export * from './generators/schema-to-types';
+export * from './generators/schema-to-validators';
 
 // 导出CLI工具（用于程序化调用）
-export { program as workflowCli } from "./cli/index";
+export { program as workflowCli } from './cli/index';
 
 /**
  * 🌌 CLI工具包信息
  */
 export const CLI_INFO = {
-    name: "@systembug/workflow-cli",
-    description: "Systembug工作流命令行工具",
-    version: "1.0.0",
-    dependencies: ["@systembug/workflow-schema"],
+    name: '@systembug/workflow-cli',
+    description: 'Systembug工作流命令行工具',
+    version: '1.0.0',
+    dependencies: ['@systembug/workflow-schema'],
     commands: [
-        "generate-types",
-        "generate-validators",
-        "generate-all",
-        "validate",
-        "init",
-        "version",
+        'generate-types',
+        'generate-validators',
+        'generate-all',
+        'validate',
+        'init',
+        'version',
     ],
 } as const;

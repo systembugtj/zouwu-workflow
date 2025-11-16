@@ -8,11 +8,8 @@ import {
     ExpressionValidationError,
     ExpressionValidationResult,
     TemplateVariableReference,
-} from "./types";
-import {
-    extractTemplateExpressions,
-    extractTemplateExpressionsFromObject,
-} from "./parser";
+} from './types';
+import { extractTemplateExpressions, extractTemplateExpressionsFromObject } from './parser';
 
 /**
  * 🌌 验证变量引用是否有效
@@ -20,14 +17,12 @@ import {
 export function validateVariableReferences(
     variables: TemplateVariableReference[],
     availableVariables: Set<string>,
-    path = "root",
+    path = 'root'
 ): ExpressionValidationResult {
     const errors: ExpressionValidationError[] = [];
 
     for (const variable of variables) {
-        const variablePath = variable.path
-            ? `${variable.type}.${variable.path}`
-            : variable.type;
+        const variablePath = variable.path ? `${variable.type}.${variable.path}` : variable.type;
 
         // 检查基础路径是否存在
         let found = false;
@@ -36,8 +31,8 @@ export function validateVariableReferences(
                 // 检查完整路径或部分路径匹配
                 if (
                     availableVar === variablePath ||
-                    availableVar.startsWith(variablePath + ".") ||
-                    variablePath.startsWith(availableVar + ".")
+                    availableVar.startsWith(variablePath + '.') ||
+                    variablePath.startsWith(availableVar + '.')
                 ) {
                     found = true;
                     break;
@@ -70,17 +65,17 @@ export function validateVariableReferences(
 export function validateTemplateExpressionsInObject(
     obj: any,
     availableVariables: Set<string>,
-    path = "root",
+    path = 'root'
 ): ExpressionValidationResult {
     const errors: ExpressionValidationError[] = [];
 
     // 递归验证，保持路径信息
     function validateRecursive(currentObj: any, currentPath: string): void {
-        if (typeof currentObj === "string") {
+        if (typeof currentObj === 'string') {
             const validation = validateTemplateExpression(
                 currentObj,
                 availableVariables,
-                currentPath,
+                currentPath
             );
             if (!validation.valid) {
                 errors.push(...validation.errors);
@@ -89,7 +84,7 @@ export function validateTemplateExpressionsInObject(
             currentObj.forEach((item, index) => {
                 validateRecursive(item, `${currentPath}[${index}]`);
             });
-        } else if (currentObj && typeof currentObj === "object") {
+        } else if (currentObj && typeof currentObj === 'object') {
             for (const [key, value] of Object.entries(currentObj)) {
                 validateRecursive(value, `${currentPath}.${key}`);
             }
@@ -110,7 +105,7 @@ export function validateTemplateExpressionsInObject(
 export function validateTemplateExpression(
     text: string,
     availableVariables: Set<string>,
-    path = "root",
+    path = 'root'
 ): ExpressionValidationResult {
     const result = extractTemplateExpressions(text);
 
@@ -123,4 +118,3 @@ export function validateTemplateExpression(
 
     return validateVariableReferences(result.variables, availableVariables, path);
 }
-

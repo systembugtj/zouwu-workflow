@@ -6,53 +6,53 @@
  */
 
 // 🌌 导出核心Schema定义
-export * from "./schemas";
+export * from './schemas';
 
 // 🔧 导出类型定义
-export * from "./types";
+export * from './types';
 
 // 🌌 导出验证器
-export * from "./validators";
+export * from './validators';
 
 /**
  * 🌌 核心包信息
  */
 export const CORE_INFO = {
-    name: "@systembug/workflow-schema",
-    description: "Systembug工作流Schema定义和运行时验证器 - 核心包",
-    version: "1.0.0",
-    features: ["JSON Schema定义", "运行时验证器", "TypeScript类型定义", "Schema加载器"],
-    relatedPackages: ["@systembug/workflow-cli"],
+    name: '@systembug/workflow-schema',
+    description: 'Systembug工作流Schema定义和运行时验证器 - 核心包',
+    version: '1.0.0',
+    features: ['JSON Schema定义', '运行时验证器', 'TypeScript类型定义', 'Schema加载器'],
+    relatedPackages: ['@systembug/workflow-cli'],
 } as const;
 
 /**
  * 📜 Schema版本信息
  */
-export const SCHEMA_VERSION = "1.0.0";
+export const SCHEMA_VERSION = '1.0.0';
 
 /**
  * 🔧 基础配置
  */
 export const DEFAULT_CONFIG = {
     schemaVersion: SCHEMA_VERSION,
-    supportedStepTypes: ["condition", "action", "builtin", "loop", "parallel", "workflow"],
-    supportedServices: ["taiyi", "wenchang", "qianliyan", "maliang"],
+    supportedStepTypes: ['condition', 'action', 'builtin', 'loop', 'parallel', 'workflow'],
+    supportedServices: ['taiyi', 'wenchang', 'qianliyan', 'maliang'],
     supportedOperators: [
-        "eq",
-        "ne",
-        "gt",
-        "gte",
-        "lt",
-        "lte",
-        "in",
-        "nin",
-        "exists",
-        "not_exists",
-        "matches",
-        "and",
-        "or",
+        'eq',
+        'ne',
+        'gt',
+        'gte',
+        'lt',
+        'lte',
+        'in',
+        'nin',
+        'exists',
+        'not_exists',
+        'matches',
+        'and',
+        'or',
     ],
-    builtinActions: ["return", "setVariable", "log", "delay", "transform", "error"],
+    builtinActions: ['return', 'setVariable', 'log', 'delay', 'transform', 'error'],
 } as const;
 
 /**
@@ -60,7 +60,7 @@ export const DEFAULT_CONFIG = {
  */
 export function validateConfig(config: any): boolean {
     if (!config.schemaVersion) {
-        console.warn("⚠️ 配置中缺少schemaVersion字段");
+        console.warn('⚠️ 配置中缺少schemaVersion字段');
         return false;
     }
 

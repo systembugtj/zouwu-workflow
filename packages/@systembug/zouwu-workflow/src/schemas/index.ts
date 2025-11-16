@@ -5,18 +5,18 @@
  * 🔧 工作流操作：加载和导出Schema定义
  */
 
-import * as fs from "fs";
-import * as path from "path";
+import * as fs from 'fs';
+import * as path from 'path';
 
 /**
  * 🌌 Schema文件路径配置
  */
-const SCHEMA_DIR = path.join(__dirname, "../../schemas");
+const SCHEMA_DIR = path.join(__dirname, '../../schemas');
 
 const SCHEMA_FILES = {
-    workflow: "workflow.schema.json",
-    stepTypes: "step-types.schema.json",
-    templateSyntax: "template-syntax.schema.json",
+    workflow: 'workflow.schema.json',
+    stepTypes: 'step-types.schema.json',
+    templateSyntax: 'template-syntax.schema.json',
 } as const;
 
 /**
@@ -34,7 +34,7 @@ function loadSchema(name: keyof typeof SCHEMA_FILES): any {
 
     try {
         const schemaPath = path.join(SCHEMA_DIR, SCHEMA_FILES[name]);
-        const schemaContent = fs.readFileSync(schemaPath, "utf-8");
+        const schemaContent = fs.readFileSync(schemaPath, 'utf-8');
         const schema = JSON.parse(schemaContent);
 
         cachedSchemas[name] = schema;
@@ -49,21 +49,21 @@ function loadSchema(name: keyof typeof SCHEMA_FILES): any {
  * 🌌 获取工作流主Schema
  */
 export function getWorkflowSchema(): any {
-    return loadSchema("workflow");
+    return loadSchema('workflow');
 }
 
 /**
  * 📜 获取步骤类型Schema
  */
 export function getStepTypesSchema(): any {
-    return loadSchema("stepTypes");
+    return loadSchema('stepTypes');
 }
 
 /**
  * 🔧 获取模板语法Schema
  */
 export function getTemplateSyntaxSchema(): any {
-    return loadSchema("templateSyntax");
+    return loadSchema('templateSyntax');
 }
 
 /**
@@ -86,22 +86,22 @@ export function getSchemaMetadata(schemaName: keyof typeof SCHEMA_FILES) {
         id: schema.$id,
         title: schema.title,
         description: schema.description,
-        version: schema.$id?.match(/v(\d+\.\d+\.\d+)/)?.[1] || "unknown",
+        version: schema.$id?.match(/v(\d+\.\d+\.\d+)/)?.[1] || 'unknown',
     };
 }
 
 /**
  * 🔧 验证Schema版本兼容性
  */
-export function validateSchemaCompatibility(userSchema: any, expectedVersion = "1.0.0"): boolean {
+export function validateSchemaCompatibility(userSchema: any, expectedVersion = '1.0.0'): boolean {
     if (!userSchema.$id) {
-        console.warn("⚠️ Schema缺少$id字段");
+        console.warn('⚠️ Schema缺少$id字段');
         return false;
     }
 
     const versionMatch = userSchema.$id.match(/v(\d+\.\d+\.\d+)/);
     if (!versionMatch) {
-        console.warn("⚠️ 无法从Schema $id中提取版本信息");
+        console.warn('⚠️ 无法从Schema $id中提取版本信息');
         return false;
     }
 
@@ -119,22 +119,22 @@ export function validateSchemaCompatibility(userSchema: any, expectedVersion = "
  */
 export function clearSchemaCache(): void {
     cachedSchemas = {};
-    console.log("🔧 Schema缓存已清除");
+    console.log('🔧 Schema缓存已清除');
 }
 
 // 🌌 导出Schema常量（用于类型定义）
 export const WORKFLOW_SCHEMA_ID =
-    "https://schemas.systembug.io/workflow/v1.0.0/workflow.schema.json";
+    'https://schemas.systembug.io/workflow/v1.0.0/workflow.schema.json';
 export const STEP_TYPES_SCHEMA_ID =
-    "https://schemas.systembug.io/workflow/v1.0.0/step-types.schema.json";
+    'https://schemas.systembug.io/workflow/v1.0.0/step-types.schema.json';
 export const TEMPLATE_SYNTAX_SCHEMA_ID =
-    "https://schemas.systembug.io/workflow/v1.0.0/template-syntax.schema.json";
+    'https://schemas.systembug.io/workflow/v1.0.0/template-syntax.schema.json';
 
 /**
  * 📜 Schema文件映射
  */
 export const SCHEMA_MAPPING = {
-    [WORKFLOW_SCHEMA_ID]: "workflow",
-    [STEP_TYPES_SCHEMA_ID]: "stepTypes",
-    [TEMPLATE_SYNTAX_SCHEMA_ID]: "templateSyntax",
+    [WORKFLOW_SCHEMA_ID]: 'workflow',
+    [STEP_TYPES_SCHEMA_ID]: 'stepTypes',
+    [TEMPLATE_SYNTAX_SCHEMA_ID]: 'templateSyntax',
 } as const;

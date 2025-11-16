@@ -7,78 +7,78 @@
  * 🔧 工作流操作：自动化构建流程
  */
 
-const { execSync } = require("child_process");
-const fs = require("fs");
-const path = require("path");
+const { execSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
 
-console.log("🌌 启动驺吾Schema包构建仙术...");
+console.log('🌌 启动驺吾Schema包构建仙术...');
 
-const rootDir = path.join(__dirname, "..");
-const buildDir = path.join(rootDir, "dist");
-const _srcDir = path.join(rootDir, "src");
+const rootDir = path.join(__dirname, '..');
+const buildDir = path.join(rootDir, 'dist');
+const _srcDir = path.join(rootDir, 'src');
 
 // 🔧 清理构建目录
 function cleanBuildDir() {
-    console.log("📜 清理构建目录...");
+    console.log('📜 清理构建目录...');
     try {
         if (fs.existsSync(buildDir)) {
             fs.rmSync(buildDir, { recursive: true, force: true });
         }
         fs.mkdirSync(buildDir, { recursive: true });
     } catch (error) {
-        console.error("❌ 清理构建目录失败:", error);
+        console.error('❌ 清理构建目录失败:', error);
         process.exit(1);
     }
 }
 
 // 🌌 编译TypeScript
 function compileTypeScript() {
-    console.log("📜 编译TypeScript代码...");
+    console.log('📜 编译TypeScript代码...');
     try {
-        execSync("npx tsc --build", {
+        execSync('npx tsc --build', {
             cwd: rootDir,
-            stdio: "inherit",
+            stdio: 'inherit',
         });
-        console.log("✅ TypeScript编译完成");
+        console.log('✅ TypeScript编译完成');
     } catch (error) {
-        console.error("❌ TypeScript编译失败:", error);
+        console.error('❌ TypeScript编译失败:', error);
         process.exit(1);
     }
 }
 
 // 🔧 复制Schema文件
 function copySchemas() {
-    console.log("📜 复制Schema文件...");
+    console.log('📜 复制Schema文件...');
     try {
-        const schemasSrc = path.join(rootDir, "schemas");
-        const schemasDest = path.join(buildDir, "schemas");
+        const schemasSrc = path.join(rootDir, 'schemas');
+        const schemasDest = path.join(buildDir, 'schemas');
 
         if (fs.existsSync(schemasSrc)) {
             fs.mkdirSync(schemasDest, { recursive: true });
 
             const schemaFiles = fs.readdirSync(schemasSrc);
             for (const file of schemaFiles) {
-                if (file.endsWith(".json")) {
+                if (file.endsWith('.json')) {
                     fs.copyFileSync(path.join(schemasSrc, file), path.join(schemasDest, file));
                 }
             }
         }
-        console.log("✅ Schema文件复制完成");
+        console.log('✅ Schema文件复制完成');
     } catch (error) {
-        console.error("❌ Schema文件复制失败:", error);
+        console.error('❌ Schema文件复制失败:', error);
         process.exit(1);
     }
 }
 
 // 🌌 复制package.json
 function copyPackageJson() {
-    console.log("📜 复制package.json...");
+    console.log('📜 复制package.json...');
     try {
-        const packageJsonSrc = path.join(rootDir, "package.json");
-        const packageJsonDest = path.join(buildDir, "package.json");
+        const packageJsonSrc = path.join(rootDir, 'package.json');
+        const packageJsonDest = path.join(buildDir, 'package.json');
 
         if (fs.existsSync(packageJsonSrc)) {
-            const packageData = JSON.parse(fs.readFileSync(packageJsonSrc, "utf-8"));
+            const packageData = JSON.parse(fs.readFileSync(packageJsonSrc, 'utf-8'));
 
             // 调整路径和移除开发依赖
             delete packageData.devDependencies;
@@ -87,37 +87,37 @@ function copyPackageJson() {
 
             fs.writeFileSync(packageJsonDest, JSON.stringify(packageData, null, 2));
         }
-        console.log("✅ package.json复制完成");
+        console.log('✅ package.json复制完成');
     } catch (error) {
-        console.error("❌ package.json复制失败:", error);
+        console.error('❌ package.json复制失败:', error);
         process.exit(1);
     }
 }
 
 // 🔧 生成示例类型和验证器
 function generateExamples() {
-    console.log("📜 生成示例类型和验证器...");
+    console.log('📜 生成示例类型和验证器...');
     try {
-        const examplesDir = path.join(buildDir, "examples");
+        const examplesDir = path.join(buildDir, 'examples');
         fs.mkdirSync(examplesDir, { recursive: true });
 
         // 生成类型定义示例
-        const typesDir = path.join(examplesDir, "types");
+        const typesDir = path.join(examplesDir, 'types');
         fs.mkdirSync(typesDir, { recursive: true });
 
         // 生成验证器示例
-        const validatorsDir = path.join(examplesDir, "validators");
+        const validatorsDir = path.join(examplesDir, 'validators');
         fs.mkdirSync(validatorsDir, { recursive: true });
 
         // 使用构建好的生成器
         const { generateTypesFromSchemas } = require(
-            path.join(buildDir, "generators/schema-to-types"),
+            path.join(buildDir, 'generators/schema-to-types')
         );
         const { generateValidatorsFromSchemas } = require(
-            path.join(buildDir, "generators/schema-to-validators"),
+            path.join(buildDir, 'generators/schema-to-validators')
         );
 
-        const schemasDir = path.join(buildDir, "schemas");
+        const schemasDir = path.join(buildDir, 'schemas');
 
         if (fs.existsSync(schemasDir)) {
             // 生成类型定义
@@ -126,10 +126,10 @@ function generateExamples() {
                 generateValidators: true,
             })
                 .then(() => {
-                    console.log("✅ 示例类型定义生成完成");
+                    console.log('✅ 示例类型定义生成完成');
                 })
                 .catch((error) => {
-                    console.warn("⚠️ 示例类型定义生成失败:", error);
+                    console.warn('⚠️ 示例类型定义生成失败:', error);
                 });
 
             // 生成验证器
@@ -138,28 +138,28 @@ function generateExamples() {
                 chineseErrors: true,
             })
                 .then(() => {
-                    console.log("✅ 示例验证器生成完成");
+                    console.log('✅ 示例验证器生成完成');
                 })
                 .catch((error) => {
-                    console.warn("⚠️ 示例验证器生成失败:", error);
+                    console.warn('⚠️ 示例验证器生成失败:', error);
                 });
         }
     } catch (error) {
-        console.warn("⚠️ 示例生成失败:", error);
+        console.warn('⚠️ 示例生成失败:', error);
         // 不退出进程，因为这不是关键步骤
     }
 }
 
 // 🌌 创建CLI可执行文件
 function createCliExecutable() {
-    console.log("📜 创建CLI可执行文件...");
+    console.log('📜 创建CLI可执行文件...');
     try {
-        const cliSrc = path.join(buildDir, "cli/index.js");
-        const cliBin = path.join(buildDir, "bin/workflow-schema");
+        const cliSrc = path.join(buildDir, 'cli/index.js');
+        const cliBin = path.join(buildDir, 'bin/workflow-schema');
 
         if (fs.existsSync(cliSrc)) {
             // 创建bin目录
-            fs.mkdirSync(path.join(buildDir, "bin"), { recursive: true });
+            fs.mkdirSync(path.join(buildDir, 'bin'), { recursive: true });
 
             // 创建可执行文件
             const cliContent = `#!/usr/bin/env node
@@ -168,20 +168,20 @@ require('../cli/index.js');
             fs.writeFileSync(cliBin, cliContent);
 
             // 设置可执行权限
-            if (process.platform !== "win32") {
-                fs.chmodSync(cliBin, "755");
+            if (process.platform !== 'win32') {
+                fs.chmodSync(cliBin, '755');
             }
         }
-        console.log("✅ CLI可执行文件创建完成");
+        console.log('✅ CLI可执行文件创建完成');
     } catch (error) {
-        console.error("❌ CLI可执行文件创建失败:", error);
+        console.error('❌ CLI可执行文件创建失败:', error);
         process.exit(1);
     }
 }
 
 // 🔧 生成README
 function generateReadme() {
-    console.log("📜 生成README文件...");
+    console.log('📜 生成README文件...');
     try {
         const readmeContent = `# @systembug/workflow-schema
 
@@ -253,10 +253,10 @@ workflow-schema validate -f workflow.yml
 MIT License
 `;
 
-        fs.writeFileSync(path.join(buildDir, "README.md"), readmeContent);
-        console.log("✅ README文件生成完成");
+        fs.writeFileSync(path.join(buildDir, 'README.md'), readmeContent);
+        console.log('✅ README文件生成完成');
     } catch (error) {
-        console.error("❌ README文件生成失败:", error);
+        console.error('❌ README文件生成失败:', error);
         process.exit(1);
     }
 }
@@ -274,12 +274,12 @@ async function main() {
         // 异步生成示例（不阻塞主流程）
         setTimeout(generateExamples, 1000);
 
-        console.log("🌌 驺吾Schema包构建仙术完成！");
+        console.log('🌌 驺吾Schema包构建仙术完成！');
         console.log(`📁 构建目录: ${buildDir}`);
-        console.log("🔧 可以通过以下命令发布:");
-        console.log("  cd dist && npm publish");
+        console.log('🔧 可以通过以下命令发布:');
+        console.log('  cd dist && npm publish');
     } catch (error) {
-        console.error("❌ 天劫降临，构建失败:", error);
+        console.error('❌ 天劫降临，构建失败:', error);
         process.exit(1);
     }
 }

@@ -5,8 +5,8 @@
  * 🔧 工作流操作：从Schema中提取类型信息并生成完整的TS接口
  */
 
-import * as fs from "fs";
-import * as path from "path";
+import * as fs from 'fs';
+import * as path from 'path';
 
 export interface GeneratorOptions {
     /** 输入Schema文件路径 */
@@ -51,7 +51,7 @@ export class SchemaToTypesGenerator {
      * 🌌 主要生成仙术：执行Schema到类型的转换
      */
     async generate(): Promise<void> {
-        console.log("🌌 启动Schema到TypeScript生成仙术...");
+        console.log('🌌 启动Schema到TypeScript生成仙术...');
 
         // 读取Schema文件
         const schemaContent = await this.readSchemaFile();
@@ -63,12 +63,12 @@ export class SchemaToTypesGenerator {
         // 写入输出文件
         await this.writeOutputFile(tsContent);
 
-        console.log("🌌 仙术完成，TypeScript类型已生成");
+        console.log('🌌 仙术完成，TypeScript类型已生成');
     }
 
     private async readSchemaFile(): Promise<string> {
         console.log(`📜 读取Schema典籍: ${this.options.schemaPath}`);
-        return fs.promises.readFile(this.options.schemaPath, "utf-8");
+        return fs.promises.readFile(this.options.schemaPath, 'utf-8');
     }
 
     private async writeOutputFile(content: string): Promise<void> {
@@ -78,7 +78,7 @@ export class SchemaToTypesGenerator {
         const outputDir = path.dirname(this.options.outputPath);
         await fs.promises.mkdir(outputDir, { recursive: true });
 
-        await fs.promises.writeFile(this.options.outputPath, content, "utf-8");
+        await fs.promises.writeFile(this.options.outputPath, content, 'utf-8');
     }
 
     private generateTypeScriptContent(schema: SchemaDefinition): string {
@@ -88,7 +88,7 @@ export class SchemaToTypesGenerator {
         parts.push(this.generateFileHeader(schema));
 
         // 生成主接口
-        if (schema.type === "object" && schema.properties) {
+        if (schema.type === 'object' && schema.properties) {
             const mainInterfaceName = this.getMainInterfaceName(schema);
             parts.push(this.generateInterface(mainInterfaceName, schema));
         }
@@ -103,13 +103,13 @@ export class SchemaToTypesGenerator {
         // 生成导出语句
         parts.push(this.generateExports(schema));
 
-        return parts.join("\n\n");
+        return parts.join('\n\n');
     }
 
     private generateFileHeader(schema: SchemaDefinition): string {
-        const title = schema.title || "Generated Types";
+        const title = schema.title || 'Generated Types';
         const description =
-            schema.description || "Auto-generated TypeScript types from JSON Schema";
+            schema.description || 'Auto-generated TypeScript types from JSON Schema';
 
         return `/**
  * ${title}
@@ -128,7 +128,7 @@ export class SchemaToTypesGenerator {
         if (schema.title) {
             return this.toPascalCase(schema.title);
         }
-        const prefix = this.options.namePrefix || "Generated";
+        const prefix = this.options.namePrefix || 'Generated';
         return `${prefix}Schema`;
     }
 
@@ -155,19 +155,19 @@ export class SchemaToTypesGenerator {
         lines.push(`}`);
 
         this.generatedTypes.add(name);
-        return lines.join("\n");
+        return lines.join('\n');
     }
 
     private generatePropertyType(name: string, schema: any, isRequired: boolean): string {
-        const optional = isRequired ? "" : "?";
+        const optional = isRequired ? '' : '?';
         const type = this.schemaToType(schema);
-        const comment = schema.description ? ` // ${schema.description}` : "";
+        const comment = schema.description ? ` // ${schema.description}` : '';
 
         return `${name}${optional}: ${type};${comment}`;
     }
 
     private schemaToType(schema: any): string {
-        if (typeof schema === "string") {
+        if (typeof schema === 'string') {
             return schema;
         }
 
@@ -176,23 +176,23 @@ export class SchemaToTypesGenerator {
         }
 
         if (schema.enum) {
-            return schema.enum.map((v: any) => JSON.stringify(v)).join(" | ");
+            return schema.enum.map((v: any) => JSON.stringify(v)).join(' | ');
         }
 
         if (schema.oneOf) {
-            return schema.oneOf.map((s: any) => this.schemaToType(s)).join(" | ");
+            return schema.oneOf.map((s: any) => this.schemaToType(s)).join(' | ');
         }
 
         if (schema.allOf) {
-            return schema.allOf.map((s: any) => this.schemaToType(s)).join(" & ");
+            return schema.allOf.map((s: any) => this.schemaToType(s)).join(' & ');
         }
 
-        if (schema.type === "array") {
-            const itemType = schema.items ? this.schemaToType(schema.items) : "any";
+        if (schema.type === 'array') {
+            const itemType = schema.items ? this.schemaToType(schema.items) : 'any';
             return `${itemType}[]`;
         }
 
-        if (schema.type === "object") {
+        if (schema.type === 'object') {
             if (schema.properties) {
                 return this.generateInlineObjectType(schema);
             }
@@ -200,35 +200,35 @@ export class SchemaToTypesGenerator {
                 const valueType = Object.values(schema.patternProperties)[0];
                 return `Record<string, ${this.schemaToType(valueType)}>`;
             }
-            return "Record<string, any>";
+            return 'Record<string, any>';
         }
 
         // 基本类型映射
         const typeMap: Record<string, string> = {
-            string: "string",
-            number: "number",
-            integer: "number",
-            boolean: "boolean",
-            null: "null",
+            string: 'string',
+            number: 'number',
+            integer: 'number',
+            boolean: 'boolean',
+            null: 'null',
         };
 
-        return typeMap[schema.type] || "any";
+        return typeMap[schema.type] || 'any';
     }
 
     private generateInlineObjectType(schema: any): string {
-        const parts: string[] = ["{"];
+        const parts: string[] = ['{'];
 
         if (schema.properties) {
             for (const [propName, propSchema] of Object.entries(schema.properties)) {
                 const isRequired = schema.required?.includes(propName) ?? false;
-                const optional = isRequired ? "" : "?";
+                const optional = isRequired ? '' : '?';
                 const type = this.schemaToType(propSchema);
                 parts.push(`  ${propName}${optional}: ${type};`);
             }
         }
 
-        parts.push("}");
-        return parts.join("\n");
+        parts.push('}');
+        return parts.join('\n');
     }
 
     private resolveRef(ref: string): string {
@@ -239,11 +239,11 @@ export class SchemaToTypesGenerator {
         }
 
         // 处理其他格式的引用
-        return ref.split("/").pop() || "unknown";
+        return ref.split('/').pop() || 'unknown';
     }
 
     private generateDefinitionType(name: string, definition: any): string {
-        if (definition.type === "object") {
+        if (definition.type === 'object') {
             return this.generateInterface(name, definition);
         }
 
@@ -257,7 +257,7 @@ export class SchemaToTypesGenerator {
 
         // 生成类型别名
         const type = this.schemaToType(definition);
-        const description = definition.description ? `\n * ${definition.description}` : "";
+        const description = definition.description ? `\n * ${definition.description}` : '';
 
         return `/**${description}
  */
@@ -283,21 +283,21 @@ export type ${name} = ${type};`;
         lines.push(`}`);
 
         this.generatedTypes.add(name);
-        return lines.join("\n");
+        return lines.join('\n');
     }
 
     private generateUnionType(name: string, definition: any): string {
         let type: string;
 
         if (definition.oneOf) {
-            type = definition.oneOf.map((s: any) => this.schemaToType(s)).join(" | ");
+            type = definition.oneOf.map((s: any) => this.schemaToType(s)).join(' | ');
         } else if (definition.allOf) {
-            type = definition.allOf.map((s: any) => this.schemaToType(s)).join(" & ");
+            type = definition.allOf.map((s: any) => this.schemaToType(s)).join(' & ');
         } else {
-            type = "any";
+            type = 'any';
         }
 
-        const description = definition.description ? `\n * ${definition.description}` : "";
+        const description = definition.description ? `\n * ${definition.description}` : '';
 
         return `/**${description}
  */
@@ -317,27 +317,27 @@ export type ${name} = ${type};`;
         const allTypes = Array.from(this.generatedTypes).sort();
         if (allTypes.length > 0) {
             exports.push(`export type {`);
-            exports.push(`  ${allTypes.join(",\n  ")}`);
+            exports.push(`  ${allTypes.join(',\n  ')}`);
             exports.push(`};`);
         }
 
-        return exports.join("\n");
+        return exports.join('\n');
     }
 
     private toPascalCase(str: string): string {
         return str
-            .replace(/[^a-zA-Z0-9]/g, " ")
-            .split(" ")
+            .replace(/[^a-zA-Z0-9]/g, ' ')
+            .split(' ')
             .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-            .join("");
+            .join('');
     }
 
     private toEnumKey(value: any): string {
-        if (typeof value === "string") {
+        if (typeof value === 'string') {
             return value
                 .toUpperCase()
-                .replace(/[^A-Z0-9]/g, "_")
-                .replace(/^(\d)/, "_$1"); // 数字开头的加下划线
+                .replace(/[^A-Z0-9]/g, '_')
+                .replace(/^(\d)/, '_$1'); // 数字开头的加下划线
         }
         return `VALUE_${value}`;
     }
@@ -357,15 +357,15 @@ export async function generateTypesFromSchema(options: GeneratorOptions): Promis
 export async function generateTypesFromSchemas(
     schemaDir: string,
     outputDir: string,
-    options: Partial<GeneratorOptions> = {},
+    options: Partial<GeneratorOptions> = {}
 ): Promise<void> {
-    console.log("🌌 启动批量Schema生成仙术...");
+    console.log('🌌 启动批量Schema生成仙术...');
 
     const schemaFiles = await fs.promises.readdir(schemaDir);
-    const jsonSchemas = schemaFiles.filter((file) => file.endsWith(".schema.json"));
+    const jsonSchemas = schemaFiles.filter((file) => file.endsWith('.schema.json'));
 
     for (const schemaFile of jsonSchemas) {
-        const baseName = path.basename(schemaFile, ".schema.json");
+        const baseName = path.basename(schemaFile, '.schema.json');
         const schemaPath = path.join(schemaDir, schemaFile);
         const outputPath = path.join(outputDir, `${baseName}.types.ts`);
 
@@ -378,5 +378,5 @@ export async function generateTypesFromSchemas(
         });
     }
 
-    console.log("🌌 批量生成仙术完成");
+    console.log('🌌 批量生成仙术完成');
 }

@@ -7,21 +7,25 @@
 `@systembug/zouwu-workflow` 是核心Schema包，为驺吾工作流系统提供JSON Schema定义、TypeScript类型和运行时验证器。
 
 **📦 相关包**：
+
 - `@systembug/zouwu-cli` - 命令行工具包，提供代码生成和项目管理功能
 
 ## 🌟 核心特性
 
 ### ✅ JSON Schema定义
+
 - **工作流主Schema**: 定义完整的工作流结构和语法
 - **步骤类型Schema**: 详细定义各种步骤类型（condition、action、builtin、loop、parallel、workflow）
 - **模板语法Schema**: 支持`{{}}`模板变量和JavaScript表达式
 
 ### 🔧 运行时验证器
+
 - **基于Ajv的验证器**: 高性能的JSON Schema验证
 - **中文错误信息**: 提供本地化的中文错误提示
 - **严格类型检查**: 确保工作流结构的正确性
 
 ### 📚 TypeScript类型支持
+
 - **完整类型定义**: 基于Schema生成的TypeScript接口
 - **模板语法类型**: 支持变量引用和表达式的类型定义
 - **强类型保证**: 编译时类型检查支持
@@ -37,11 +41,7 @@ npm install @systembug/zouwu-workflow
 ### 使用示例
 
 ```typescript
-import {
-    validateWorkflow,
-    getWorkflowSchema,
-    WorkflowValidator
-} from '@systembug/zouwu-workflow';
+import { validateWorkflow, getWorkflowSchema, WorkflowValidator } from '@systembug/zouwu-workflow';
 
 // 验证工作流
 const workflow = {
@@ -55,10 +55,10 @@ const workflow = {
             action: 'log',
             input: {
                 level: 'info',
-                message: 'Hello, World!'
-            }
-        }
-    ]
+                message: 'Hello, World!',
+            },
+        },
+    ],
 };
 
 const result = validateWorkflow(workflow);
@@ -78,55 +78,55 @@ console.log('Schema ID:', schema.$id);
 ### 基础工作流结构
 
 ```yaml
-id: "preference_update"
-name: "偏好设置更新"
-description: "更新用户偏好设置的完整流程"
-version: "1.0.0"
-author: "驺吾引擎"
+id: 'preference_update'
+name: '偏好设置更新'
+description: '更新用户偏好设置的完整流程'
+version: '1.0.0'
+author: '驺吾引擎'
 
 triggers:
-  - intent: "update_preferences"
+    - intent: 'update_preferences'
 
 inputs:
-  - name: "delta"
-    type: "object"
-    required: true
-    description: "偏好设置变更数据"
+    - name: 'delta'
+      type: 'object'
+      required: true
+      description: '偏好设置变更数据'
 
 steps:
-  - id: "validate_input"
-    type: "condition"
-    description: "验证输入数据"
-    condition:
-      operator: "exists"
-      value: "{{inputs.delta}}"
-    onTrue:
-      - id: "apply_changes"
-        type: "action"
-        service: "wenchang"
-        action: "applyDelta"
-        input:
-          delta: "{{inputs.delta}}"
-        output_schema:
-          type: "object"
-          properties:
-            success: { type: "boolean" }
-            data: { type: "object" }
-    onFalse:
-      - id: "return_error"
-        type: "builtin"
-        action: "error"
-        input:
-          message: "输入数据无效"
-          code: "INVALID_INPUT"
+    - id: 'validate_input'
+      type: 'condition'
+      description: '验证输入数据'
+      condition:
+          operator: 'exists'
+          value: '{{inputs.delta}}'
+      onTrue:
+          - id: 'apply_changes'
+            type: 'action'
+            service: 'wenchang'
+            action: 'applyDelta'
+            input:
+                delta: '{{inputs.delta}}'
+            output_schema:
+                type: 'object'
+                properties:
+                    success: { type: 'boolean' }
+                    data: { type: 'object' }
+      onFalse:
+          - id: 'return_error'
+            type: 'builtin'
+            action: 'error'
+            input:
+                message: '输入数据无效'
+                code: 'INVALID_INPUT'
 
-  - id: "return_result"
-    type: "builtin"
-    action: "return"
-    input:
-      success: "{{steps.apply_changes.output.success}}"
-      data: "{{steps.apply_changes.output.data}}"
-    dependsOn: ["validate_input"]
+    - id: 'return_result'
+      type: 'builtin'
+      action: 'return'
+      input:
+          success: '{{steps.apply_changes.output.success}}'
+          data: '{{steps.apply_changes.output.data}}'
+      dependsOn: ['validate_input']
 ```
 
 ## 🔧 开发指南

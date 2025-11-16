@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitepress'
+import { defineConfig } from 'vitepress';
 
 export default defineConfig({
     title: 'Zouwu Workflow',
@@ -9,11 +9,14 @@ export default defineConfig({
         nav: [
             { text: '首页', link: '/' },
             { text: '规范文档', link: '/zouwu-workflow-specification-v1.0' },
-            { text: '包文档', items: [
-                { text: '核心包', link: '/packages/zouwu-workflow' },
-                { text: 'CLI 工具', link: '/packages/zouwu-cli' },
-                { text: '表达式解析器', link: '/packages/zouwu-expression-parser' },
-            ]},
+            {
+                text: '包文档',
+                items: [
+                    { text: '核心包', link: '/packages/zouwu-workflow' },
+                    { text: 'CLI 工具', link: '/packages/zouwu-cli' },
+                    { text: '表达式解析器', link: '/packages/zouwu-expression-parser' },
+                ],
+            },
             { text: 'GitHub', link: 'https://github.com/systembugtj/zouwu-workflow' },
         ],
         sidebar: {
@@ -36,18 +39,18 @@ export default defineConfig({
                     items: [
                         { text: '核心包 (zouwu-workflow)', link: '/packages/zouwu-workflow' },
                         { text: 'CLI 工具 (zouwu-cli)', link: '/packages/zouwu-cli' },
-                        { text: '表达式解析器 (zouwu-expression-parser)', link: '/packages/zouwu-expression-parser' },
+                        {
+                            text: '表达式解析器 (zouwu-expression-parser)',
+                            link: '/packages/zouwu-expression-parser',
+                        },
                     ],
                 },
             ],
         },
-        socialLinks: [
-            { icon: 'github', link: 'https://github.com/systembugtj/zouwu-workflow' },
-        ],
+        socialLinks: [{ icon: 'github', link: 'https://github.com/systembugtj/zouwu-workflow' }],
         footer: {
             message: 'Released under the MIT License.',
             copyright: 'Copyright © 2024 Systembug',
         },
     },
 });
-

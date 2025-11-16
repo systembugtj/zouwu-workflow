@@ -5,8 +5,8 @@
  * 🔧 工作流操作：生成Ajv验证器和TypeScript验证函数
  */
 
-import * as fs from "fs";
-import * as path from "path";
+import * as fs from 'fs';
+import * as path from 'path';
 
 export interface ValidatorGeneratorOptions {
     /** 输入Schema文件路径 */
@@ -45,7 +45,7 @@ export class SchemaToValidatorsGenerator {
      * 🌌 主要验证器生成仙术
      */
     async generate(): Promise<void> {
-        console.log("🌌 启动Schema到验证器生成仙术...");
+        console.log('🌌 启动Schema到验证器生成仙术...');
 
         // 读取Schema文件
         const schemaContent = await this.readSchemaFile();
@@ -57,12 +57,12 @@ export class SchemaToValidatorsGenerator {
         // 写入输出文件
         await this.writeOutputFile(validatorContent);
 
-        console.log("🌌 验证器仙术完成");
+        console.log('🌌 验证器仙术完成');
     }
 
     private async readSchemaFile(): Promise<string> {
         console.log(`📜 读取Schema典籍: ${this.options.schemaPath}`);
-        return fs.promises.readFile(this.options.schemaPath, "utf-8");
+        return fs.promises.readFile(this.options.schemaPath, 'utf-8');
     }
 
     private async writeOutputFile(content: string): Promise<void> {
@@ -71,7 +71,7 @@ export class SchemaToValidatorsGenerator {
         const outputDir = path.dirname(this.options.outputPath);
         await fs.promises.mkdir(outputDir, { recursive: true });
 
-        await fs.promises.writeFile(this.options.outputPath, content, "utf-8");
+        await fs.promises.writeFile(this.options.outputPath, content, 'utf-8');
     }
 
     private generateValidatorContent(schema: any): string {
@@ -98,11 +98,11 @@ export class SchemaToValidatorsGenerator {
         // 导出语句
         parts.push(this.generateExports());
 
-        return parts.join("\n\n");
+        return parts.join('\n\n');
     }
 
     private generateFileHeader(schema: any): string {
-        const title = schema.title || "Generated Validators";
+        const title = schema.title || 'Generated Validators';
 
         return `/**
  * ${title} - 验证器
@@ -136,7 +136,7 @@ export interface ValidationResult {
 
     private generateSchemaDefinition(schema: any): string {
         const schemaStr = JSON.stringify(schema, null, 2);
-        const prefix = this.options.namePrefix || "workflow";
+        const prefix = this.options.namePrefix || 'workflow';
 
         return `/**
  * 📜 原始Schema定义
@@ -145,8 +145,8 @@ const ${prefix}Schema = ${schemaStr} as const;`;
     }
 
     private generateValidatorFactory(): string {
-        const prefix = this.options.namePrefix || "workflow";
-        const strict = this.options.strict ? "true" : "false";
+        const prefix = this.options.namePrefix || 'workflow';
+        const strict = this.options.strict ? 'true' : 'false';
 
         return `/**
  * 🌌 验证器工厂 - 创建Ajv验证器实例
@@ -175,7 +175,7 @@ const validator = createValidator();`;
     }
 
     private generateValidationFunctions(_schema: any): string {
-        const prefix = this.options.namePrefix || "workflow";
+        const prefix = this.options.namePrefix || 'workflow';
         const chineseErrors = this.options.chineseErrors;
 
         return `/**
@@ -230,7 +230,7 @@ export function validateStrict${this.toPascalCase(prefix)}(data: any): any {
 
     private generateErrorUtilities(): string {
         if (!this.options.chineseErrors) {
-            return "";
+            return '';
         }
 
         return `/**
@@ -266,7 +266,7 @@ function translateErrorMessage(message: string): string {
     }
 
     private generateExports(): string {
-        const prefix = this.options.namePrefix || "workflow";
+        const prefix = this.options.namePrefix || 'workflow';
         const pascalPrefix = this.toPascalCase(prefix);
 
         return `// 🌌 导出所有验证仙术
@@ -285,10 +285,10 @@ export type { ValidationError, ValidationResult };`;
 
     private toPascalCase(str: string): string {
         return str
-            .replace(/[^a-zA-Z0-9]/g, " ")
-            .split(" ")
+            .replace(/[^a-zA-Z0-9]/g, ' ')
+            .split(' ')
             .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-            .join("");
+            .join('');
     }
 }
 
@@ -296,7 +296,7 @@ export type { ValidationError, ValidationResult };`;
  * 🔧 便捷验证器生成仙术
  */
 export async function generateValidatorsFromSchema(
-    options: ValidatorGeneratorOptions,
+    options: ValidatorGeneratorOptions
 ): Promise<void> {
     const generator = new SchemaToValidatorsGenerator(options);
     await generator.generate();
@@ -308,15 +308,15 @@ export async function generateValidatorsFromSchema(
 export async function generateValidatorsFromSchemas(
     schemaDir: string,
     outputDir: string,
-    options: Partial<ValidatorGeneratorOptions> = {},
+    options: Partial<ValidatorGeneratorOptions> = {}
 ): Promise<void> {
-    console.log("🌌 启动批量验证器生成仙术...");
+    console.log('🌌 启动批量验证器生成仙术...');
 
     const schemaFiles = await fs.promises.readdir(schemaDir);
-    const jsonSchemas = schemaFiles.filter((file) => file.endsWith(".schema.json"));
+    const jsonSchemas = schemaFiles.filter((file) => file.endsWith('.schema.json'));
 
     for (const schemaFile of jsonSchemas) {
-        const baseName = path.basename(schemaFile, ".schema.json");
+        const baseName = path.basename(schemaFile, '.schema.json');
         const schemaPath = path.join(schemaDir, schemaFile);
         const outputPath = path.join(outputDir, `${baseName}.validators.ts`);
 
@@ -329,5 +329,5 @@ export async function generateValidatorsFromSchemas(
         });
     }
 
-    console.log("🌌 批量验证器生成仙术完成");
+    console.log('🌌 批量验证器生成仙术完成');
 }

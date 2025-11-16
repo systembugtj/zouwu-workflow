@@ -40,10 +40,10 @@ const workflow = {
             action: 'log',
             input: {
                 level: 'info',
-                message: 'Hello, World!'
-            }
-        }
-    ]
+                message: 'Hello, World!',
+            },
+        },
+    ],
 };
 
 const result = validateWorkflow(workflow);
@@ -81,4 +81,3 @@ console.log(result.variables); // [{ type: 'inputs', path: 'name', ... }]
 - 阅读 [工作流规范文档](./zouwu-workflow-specification-v1.0.md)
 - 查看各包的详细文档
 - 探索示例工作流
-

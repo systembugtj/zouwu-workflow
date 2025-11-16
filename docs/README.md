@@ -1,4 +1,5 @@
 # 驺吾工作流系统文档
+
 # ZouWu Workflow System Documentation
 
 > 驺吾（ZouWu）- 源自山海经的仁德神兽，以五彩斑斓之姿守护数据流转
@@ -22,13 +23,13 @@
 
 驺吾的特性完美契合现代工作流系统的设计理念：
 
-| 驺吾特性 | 技术映射 | 实现理念 |
-|---------|---------|---------|
-| **不食活物** | 非破坏性处理 | 始终保护原始数据完整性 |
-| **五彩毕具** | 多样性支持 | 支持各种步骤类型和数据格式 |
-| **尾长于身** | 链式调用 | 优雅的长链工作流处理 |
-| **日行千里** | 高效执行 | 快速可靠的工作流引擎 |
-| **性情温和** | 容错处理 | 温和的错误恢复机制 |
+| 驺吾特性     | 技术映射     | 实现理念                   |
+| ------------ | ------------ | -------------------------- |
+| **不食活物** | 非破坏性处理 | 始终保护原始数据完整性     |
+| **五彩毕具** | 多样性支持   | 支持各种步骤类型和数据格式 |
+| **尾长于身** | 链式调用     | 优雅的长链工作流处理       |
+| **日行千里** | 高效执行     | 快速可靠的工作流引擎       |
+| **性情温和** | 容错处理     | 温和的错误恢复机制         |
 
 ## 🚀 快速开始
 
@@ -37,30 +38,31 @@ import { ZouWuWorkflow, ZouWuValidator } from '@systembug/zouwu-workflow';
 
 // 创建驺吾工作流
 const workflow: ZouWuWorkflow = {
-  id: "sample_workflow",
-  name: "驺吾示例工作流",
-  version: "1.0.0",
+    id: 'sample_workflow',
+    name: '驺吾示例工作流',
+    version: '1.0.0',
 
-  // 驺吾五彩步骤
-  colors: [
-    {
-      id: "guardian_check",
-      color: "blue",        // 青色 - 条件判断
-      type: "condition",
-      guardian: {           // 驺吾守护
-        gentle: true,
-        safe: true
-      }
-    }
-  ],
+    // 驺吾五彩步骤
+    colors: [
+        {
+            id: 'guardian_check',
+            color: 'blue', // 青色 - 条件判断
+            type: 'condition',
+            guardian: {
+                // 驺吾守护
+                gentle: true,
+                safe: true,
+            },
+        },
+    ],
 
-  // 驺吾特性配置
-  zouwu: {
-    benevolence: true,      // 仁德模式
-    fiveColors: true,       // 五彩架构
-    guardian: true,         // 守护模式
-    preserveData: true      // 不食活物
-  }
+    // 驺吾特性配置
+    zouwu: {
+        benevolence: true, // 仁德模式
+        fiveColors: true, // 五彩架构
+        guardian: true, // 守护模式
+        preserveData: true, // 不食活物
+    },
 };
 
 // 验证工作流
@@ -68,7 +70,7 @@ const validator = new ZouWuValidator();
 const result = validator.validate(workflow);
 
 if (result.valid) {
-  console.log("🎨 驺吾验证通过 - 五彩斑斓，仁德守护");
+    console.log('🎨 驺吾验证通过 - 五彩斑斓，仁德守护');
 }
 ```
 
@@ -76,13 +78,13 @@ if (result.valid) {
 
 驺吾工作流采用独特的**五彩步骤系统**，每种颜色代表不同的处理逻辑：
 
-| 颜色 | 类型 | 含义 | 驺吾特性 |
-|------|------|------|---------|
+| 颜色        | 类型        | 含义     | 驺吾特性           |
+| ----------- | ----------- | -------- | ------------------ |
 | 🔵 **青色** | `condition` | 条件判断 | 智慧判断，守护检查 |
-| 🔴 **赤色** | `action` | 动作执行 | 热情执行，仁德处理 |
-| 🟡 **黄色** | `builtin` | 内置操作 | 稳定可靠，核心能力 |
-| ⚪ **白色** | `parallel` | 并行处理 | 双翼齐飞，纯粹并发 |
-| ⚫ **玄色** | `loop` | 循环处理 | 长尾递归，深邃轮回 |
+| 🔴 **赤色** | `action`    | 动作执行 | 热情执行，仁德处理 |
+| 🟡 **黄色** | `builtin`   | 内置操作 | 稳定可靠，核心能力 |
+| ⚪ **白色** | `parallel`  | 并行处理 | 双翼齐飞，纯粹并发 |
+| ⚫ **玄色** | `loop`      | 循环处理 | 长尾递归，深邃轮回 |
 
 ## 📚 核心文档
 
@@ -97,36 +99,36 @@ if (result.valid) {
 
 ```yaml
 benevolent:
-  nonDestructive: true      # 非破坏性处理
-  preserveOriginal: true    # 保护原始数据
-  gentleErrors: true        # 温和错误处理
+    nonDestructive: true # 非破坏性处理
+    preserveOriginal: true # 保护原始数据
+    gentleErrors: true # 温和错误处理
 ```
 
 ### 守护模式 (Guardian Mode)
 
 ```yaml
 guardian:
-  gentle: true              # 温和守护
-  safe: true                # 安全保护
-  validate: true            # 自动验证
+    gentle: true # 温和守护
+    safe: true # 安全保护
+    validate: true # 自动验证
 ```
 
 ### 长尾特性 (Long Tail Feature)
 
 ```yaml
 tail:
-  long: true                # 支持长链调用
-  graceful: true            # 优雅处理
-  recursive: true           # 递归支持
+    long: true # 支持长链调用
+    graceful: true # 优雅处理
+    recursive: true # 递归支持
 ```
 
 ### 双翼并行 (Dual Wings Parallel)
 
 ```yaml
 wings:
-  left: "validation"        # 左翼任务
-  right: "transformation"   # 右翼任务
-  synchronized: true        # 同步飞行
+    left: 'validation' # 左翼任务
+    right: 'transformation' # 右翼任务
+    synchronized: true # 同步飞行
 ```
 
 ## 🌟 为什么选择驺吾
@@ -161,21 +163,21 @@ wings:
 
 ```yaml
 # sample.zouwu
-id: "hello_zouwu"
-name: "驺吾问候"
-version: "1.0.0"
+id: 'hello_zouwu'
+name: '驺吾问候'
+version: '1.0.0'
 
 colors:
-  - id: "greeting"
-    color: yellow
-    type: "builtin"
-    action: "log"
-    input:
-      message: "🎨 驺吾向您问好 - 五彩斑斓，仁德守护"
+    - id: 'greeting'
+      color: yellow
+      type: 'builtin'
+      action: 'log'
+      input:
+          message: '🎨 驺吾向您问好 - 五彩斑斓，仁德守护'
 
 zouwu:
-  benevolence: true
-  fiveColors: true
+    benevolence: true
+    fiveColors: true
 ```
 
 ### CLI 使用
@@ -209,8 +211,8 @@ MIT License - 详见 [LICENSE](../LICENSE) 文件
 
 ---
 
-*驺吾工作流 - 传承千年仁德，守护现代数据*
+_驺吾工作流 - 传承千年仁德，守护现代数据_
 
-*ZouWu Workflow - Ancient Benevolence, Modern Protection*
+_ZouWu Workflow - Ancient Benevolence, Modern Protection_
 
 > "五彩斑斓护数据，仁德之心永流传"

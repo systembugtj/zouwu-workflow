@@ -22,4 +22,3 @@ import { extractTemplateExpressions } from '@systembug/zouwu-expression-parser';
 const result = extractTemplateExpressions('Hello \{\{inputs.name\}\}!');
 console.log(result.variables);
 ```
-

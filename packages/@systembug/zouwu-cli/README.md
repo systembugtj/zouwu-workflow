@@ -9,6 +9,7 @@
 ## 🌟 核心特性
 
 ### 🔧 命令行工具
+
 - **项目初始化**: 快速创建工作流Schema项目
 - **TypeScript类型生成**: 从JSON Schema自动生成完整的TypeScript接口定义
 - **运行时验证器生成**: 基于Ajv生成高性能的运行时验证器
@@ -16,6 +17,7 @@
 - **工作流验证**: 验证YAML/JSON工作流文件的正确性
 
 ### 🌌 古风界面
+
 - 采用古代中国仙侠主题的用户界面风格
 - 提供本地化的中文错误提示和操作指引
 - 丰富的图标和仙术主题术语
@@ -57,16 +59,13 @@ workflow version
 ### 编程接口
 
 ```typescript
-import {
-    generateTypesFromSchema,
-    generateValidatorsFromSchema
-} from '@systembug/zouwu-cli';
+import { generateTypesFromSchema, generateValidatorsFromSchema } from '@systembug/zouwu-cli';
 
 // 生成类型定义
 await generateTypesFromSchema({
     schemaPath: './schemas/workflow.schema.json',
     outputPath: './types/workflow.types.ts',
-    generateDocs: true
+    generateDocs: true,
 });
 
 // 生成验证器
@@ -74,7 +73,7 @@ await generateValidatorsFromSchema({
     schemaPath: './schemas/workflow.schema.json',
     outputPath: './validators/workflow.validators.ts',
     strict: true,
-    chineseErrors: true
+    chineseErrors: true,
 });
 ```
 
@@ -87,6 +86,7 @@ workflow init [目录] [选项]
 ```
 
 创建完整的工作流Schema项目结构，包括：
+
 - 基础Schema文件
 - 配置文件
 - 示例工作流
@@ -99,6 +99,7 @@ workflow generate-types -s <schema文件> -o <输出文件> [选项]
 ```
 
 从JSON Schema生成TypeScript类型定义，支持：
+
 - 完整的接口定义
 - 文档注释生成
 - 自定义名称前缀
@@ -110,6 +111,7 @@ workflow generate-validators -s <schema文件> -o <输出文件> [选项]
 ```
 
 生成基于Ajv的运行时验证器，提供：
+
 - 严格模式验证
 - 中文错误信息
 - 高性能验证
@@ -129,6 +131,7 @@ workflow validate -f <工作流文件> [选项]
 ```
 
 验证YAML/JSON工作流文件的正确性，支持：
+
 - 结构验证
 - 详细错误报告
 - 自定义Schema
@@ -136,6 +139,7 @@ workflow validate -f <工作流文件> [选项]
 ## 📚 依赖关系
 
 本包依赖以下核心包：
+
 - `@systembug/zouwu-workflow` - 核心Schema定义和验证器
 - `commander` - CLI框架
 - `chalk` - 彩色输出
